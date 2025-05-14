@@ -35,10 +35,10 @@ const toggleMobileSidebar = () => {
 
                 <div className="header-left">
                     <a href="index.html" className="logo">
-                        <img src="assets/img/logo.svg" alt="Logo" />
+                        <img src="../assets/img/logo.svg" alt="Logo" />
                     </a>
                     <a href="index.html" className="dark-logo">
-                        <img src="assets/img/logo-white.svg" alt="Logo" />
+                        <img src="../assets/img/logo-white.svg" alt="Logo" />
                     </a>
                 </div>
                     <button
@@ -104,27 +104,27 @@ const toggleMobileSidebar = () => {
                             {/* Flag */}
                             <div className="nav-item dropdown has-arrow flag-nav nav-item-box me-2">
                                 <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                                    <img src="assets/img/flags/us.svg" alt="Language" className="img-fluid" />
+                                    <img src="../assets/img/flags/us.svg" alt="Language" className="img-fluid" />
                                 </a>
                                 <ul className="dropdown-menu p-2">
                                     <li>
                                         <a href="#" className="dropdown-item">
-                                            <img src="assets/img/flags/us.svg" alt="" height="16" />English
+                                            <img src="../assets/img/flags/us.svg" alt="" height="16" />English
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" className="dropdown-item">
-                                            <img src="assets/img/flags/de.svg" alt="" />German 
+                                            <img src="../assets/img/flags/de.svg" alt="" />German 
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" className="dropdown-item">
-                                            <img src="assets/img/flags/fr.svg" alt="" />French
+                                            <img src="../assets/img/flags/fr.svg" alt="" />French
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" className="dropdown-item">
-                                            <img src="assets/img/flags/ae.svg" alt="" />Arabic
+                                            <img src="../assets/img/flags/ae.svg" alt="" />Arabic
                                         </a>
                                     </li>
                                 </ul>
@@ -166,13 +166,13 @@ const toggleMobileSidebar = () => {
                                         <div className="tab-content">
                                             <div className="tab-pane fade show active" id="active-notification">
                                                 <div className="notification-nodata">
-                                                    <img src="assets/img/icons/notify-nodata.svg" alt="img" />
+                                                    <img src="../assets/img/icons/notify-nodata.svg" alt="img" />
                                                     <p className="fw-medium">No New Nofitications</p>
                                                 </div>
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Jerry Manas</span> Added New Task Creating <span className="h6">Login Pages</span></a></p>
@@ -184,7 +184,7 @@ const toggleMobileSidebar = () => {
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-05.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-05.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Robert Fox </span> Was Marked as Late Login <span className="text-danger">09:55 AM</span></a></p>
@@ -196,7 +196,7 @@ const toggleMobileSidebar = () => {
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-04.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-04.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Jenny Wilson </span> Completed <span className="h6">Created New Component</span></a></p>
@@ -209,7 +209,7 @@ const toggleMobileSidebar = () => {
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Jacob Johnson </span> Added Manual Time <span className="h6">2 Hrs</span></a></p>
@@ -222,7 +222,7 @@ const toggleMobileSidebar = () => {
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-01.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-01.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Annete Black </span> Completed <span className="h6">Improved Workflow React</span></a></p>
@@ -238,7 +238,7 @@ const toggleMobileSidebar = () => {
                                                     <a href="notifications.html">
                                                         <div className="d-flex align-items-center">
                                                             <span className="avatar avatar-lg me-2 flex-shrink-0">
-																<img src="assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
+																<img src="../assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
 															</span>
                                                             <div className="flex-grow-1">
                                                                 <p className="mb-1"><span className="h6">Jerry Manas</span> Added New Task Creating <span className="h6">Login Pages</span></p>
@@ -252,7 +252,7 @@ const toggleMobileSidebar = () => {
                                                     <a href="notifications.html">
                                                         <div className="d-flex align-items-center">
                                                             <span className="avatar avatar-lg me-2 flex-shrink-0">
-																<img src="assets/img/profiles/avatar-05.jpg" alt="Profile" className="rounded-circle" />
+																<img src="../assets/img/profiles/avatar-05.jpg" alt="Profile" className="rounded-circle" />
 															</span>
                                                             <div className="flex-grow-1">
                                                                 <p className="mb-1"><span className="h6">Robert Fox </span> Was Marked as Late Login <span className="text-danger">09:55 AM</span></p>
@@ -267,7 +267,7 @@ const toggleMobileSidebar = () => {
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-04.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-04.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Jenny Wilson </span> Completed <span className="h6">Created New Component</span></a></p>
@@ -281,7 +281,7 @@ const toggleMobileSidebar = () => {
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-02.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Jacob Johnson </span> Added Manual Time <span className="h6">2 Hrs</span></a></p>
@@ -295,7 +295,7 @@ const toggleMobileSidebar = () => {
                                                 <div className="notification-list">
                                                     <div className="d-flex align-items-center">
                                                         <a href="notifications.html" className="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-01.jpg" alt="Profile" className="rounded-circle" />
+                                                            <img src="../assets/img/profiles/avatar-01.jpg" alt="Profile" className="rounded-circle" />
                                                         </a>
                                                         <div className="flex-grow-1">
                                                             <p className="mb-1"><a href="notifications.html"><span className="h6">Annete Black </span> Completed <span className="h6">Improved Workflow React</span></a></p>
@@ -326,13 +326,13 @@ const toggleMobileSidebar = () => {
                             <div className="dropdown profile-dropdown">
                                 <a href="#" className="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" data-bs-auto-close="outside">
                                     <span className="avatar avatar-md">
-										<img src="assets/img/profiles/avatar-01.jpg" alt="Img" className="img-fluid rounded-circle" />
+										<img src="../assets/img/profiles/avatar-01.jpg" alt="Img" className="img-fluid rounded-circle" />
 									</span>
                                 </a>
                                 <div className="dropdown-menu p-2">
                                     <div className="profileset d-flex align-items-center bg-dark p-3 mb-2">
                                         <span className="user-img me-2">
-											<img src="assets/img/profiles/avatar-01.jpg" alt="" />
+											<img src="../assets/img/profiles/avatar-01.jpg" alt="" />
 										</span>
                                         <div>
                                             <h6 className="text-white mb-1">{user?.name}</h6>

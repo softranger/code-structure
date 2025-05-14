@@ -2,34 +2,42 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleMenu } from "../store/sidebarSlice";
+import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar() {
+
+ const navigate = useNavigate();
  const dispatch = useDispatch();
-  const openMenus = useSelector((state) => state.sidebar.openMenus);
+ const openMenus = useSelector((state) => state.sidebar.openMenus);
 
   const toggle = (key) => {
     dispatch(toggleMenu(key));
   };
+
+  const handleNavigation = (e, path) =>{
+    e.preventDefault();
+    navigate(path);
+  }
 
   return (
     <div className="sidebar" id="sidebar">
             {/* Logo */}
             <div className="sidebar-logo">
                 <a href="index.html" className="logo logo-normal">
-                    <img src="assets/img/logo.svg" alt="Logo" />
+                    <img src="../assets/img/logo.svg" alt="Logo" />
                 </a>
                 <a href="index.html" className="logo-small">
-                    <img src="assets/img/logo-small.svg" alt="Logo" />
+                    <img src="../assets/img/logo-small.svg" alt="Logo" />
                 </a>
                 <a href="index.html" className="dark-logo">
-                    <img src="assets/img/logo-white.svg" alt="Logo" />
+                    <img src="../assets/img/logo-white.svg" alt="Logo" />
                 </a>
             </div>
             {/* /Logo */}
             <div className="sidebar-header p-3 pb-0">
                 <div className="rounded bg-light p-2 mb-3 sidebar-profile d-flex align-items-center">
                     <div className="avatar online avatar-md onlin">
-                        <img src="assets/img/profiles/avatar-16.jpg" alt="Img" className="img-fluid rounded-circle" />
+                        <img src="../assets/img/profiles/avatar-16.jpg" alt="Img" className="img-fluid rounded-circle" />
                     </div>
                     <div className="text-start sidebar-profile-info ms-2">
                         <h6 className="fs-12 fw-normal">Adrian Herman</h6>
@@ -66,27 +74,27 @@ export default function Sidebar() {
                     {/* Flag */}
                     <div className="nav-item dropdown has-arrow flag-nav nav-item-box me-2">
                         <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                            <img src="assets/img/flags/us.svg" alt="Language" className="img-fluid" />
+                            <img src="../assets/img/flags/us.svg" alt="Language" className="img-fluid" />
                         </a>
                         <ul className="dropdown-menu p-2">
                             <li>
                                 <a href="#" className="dropdown-item">
-                                    <img src="assets/img/flags/us.svg" alt="" height="16" />English
+                                    <img src="../assets/img/flags/us.svg" alt="" height="16" />English
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="dropdown-item">
-                                    <img src="assets/img/flags/de.svg" alt="" />German
+                                    <img src="../assets/img/flags/de.svg" alt="" />German
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="dropdown-item">
-                                    <img src="assets/img/flags/fr.svg" alt="" />French
+                                    <img src="../assets/img/flags/fr.svg" alt="" />French
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="dropdown-item">
-                                    <img src="assets/img/flags/ae.svg" alt="" />Arabic
+                                    <img src="../assets/img/flags/ae.svg" alt="" />Arabic
                                 </a>
                             </li>
                         </ul>
@@ -110,70 +118,108 @@ export default function Sidebar() {
                     <ul>
                         <li className="menu-title"><span>Main</span></li>
                         <li>
-    <ul>
-      {/* Dashboard */}
-      <li className={`submenu ${openMenus['dashboard'] ? 'active' : ''}`}>
-        <a
-          href="#"
-          className={openMenus['dashboard'] ? 'active subdrop' : ''}
-          onClick={(e) => {
-            e.preventDefault();
-            toggle('dashboard');
-          }}
-        >
-          <i className="ti ti-layout-grid-add"></i>
-          <span>Dashboard</span>
-          <span className="menu-arrow"></span>
-        </a>
-        <ul style={{ display: openMenus['dashboard'] ? 'block' : 'none' }}>
-          <li><a href="/dashboard/admin">Admin Dashboard</a></li>
-          <li><a href="/dashboard/user">User Dashboard</a></li>
-        </ul>
-      </li>
+                            <ul>
+                            {/* Dashboard */}
+                            <li className={`submenu ${openMenus['dashboard'] ? 'active' : ''}`}>
+                                <a
+                                href="#"
+                                className={openMenus['dashboard'] ? 'active subdrop' : ''}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    toggle('dashboard');
+                                }}
+                                >
+                                <i className="ti ti-layout-grid-add"></i>
+                                <span>Dashboard</span>
+                                <span className="menu-arrow"></span>
+                                </a>
+                                <ul style={{ display: openMenus['dashboard'] ? 'block' : 'none' }}>
+                                <li><a href="/dashboard/admin">Admin Dashboard</a></li>
+                                <li><a href="/dashboard/user">User Dashboard</a></li>
+                                </ul>
+                            </li>
+                            {/* administration */}
+                            <li className={`submenu ${openMenus['administartion'] ? 'active' : ''}`}>
+                                    <a
+                                    href="#"
+                                    className={openMenus['administartion'] ? 'active subdrop' : ''}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        toggle('administartion');
+                                    }}
+                                    >
+                                    <i className="ti ti-layout-list"></i>
+                                    <span>Administartion</span>
+                                    <span className="menu-arrow"></span>
+                                    </a>
+                                    <ul style={{ display: openMenus['administartion'] ? 'block' : 'none' }}>
 
-      {/* Applications */}
-      <li className={`submenu ${openMenus['applications'] ? 'active' : ''}`}>
-        <a
-          href="#"
-          className={openMenus['applications'] ? 'active subdrop' : ''}
-          onClick={(e) => {
-            e.preventDefault();
-            toggle('applications');
-          }}
-        >
-          <i className="ti ti-layout-list"></i>
-          <span>Applications</span>
-          <span className="menu-arrow"></span>
-        </a>
-        <ul style={{ display: openMenus['applications'] ? 'block' : 'none' }}>
-          <li><a href="/chat">Chat</a></li>
+                                    <li className={`submenu submenu-two ${openMenus['calls'] ? 'active' : ''}`}>
+                                        <a
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            toggle('users');
+                                        }}
+                                        className={openMenus['users'] ? 'subdrop' : ''}
+                                        >
+                                        Users<span className="menu-arrow inside-submenu"></span>
+                                        </a>
+                                        <ul style={{ display: openMenus['users'] ? 'block' : 'none' }}>
+                                        <li><a href="#" onClick={(e) => handleNavigation(e, '/users')}>Users</a>
+                                        </li>
+                                        <li><a href="#" onClick={(e)=> handleNavigation(e, '/roles')}>Roles & Permission</a></li>
+                                        </ul>
+                                    </li>
+                                    </ul>
+                                </li>
+                                </ul>
+                            </li>
+                            {/* Applications */}
+                            {/* <li className={`submenu ${openMenus['applications'] ? 'active' : ''}`}>
+                                <a
+                                href="#"
+                                className={openMenus['applications'] ? 'active subdrop' : ''}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    toggle('applications');
+                                }}
+                                >
+                                <i className="ti ti-layout-list"></i>
+                                <span>Applications</span>
+                                <span className="menu-arrow"></span>
+                                </a>
+                                <ul style={{ display: openMenus['applications'] ? 'block' : 'none' }}>
+                                <li><a href="/chat">Chat</a></li>
 
-          <li className={`submenu submenu-two ${openMenus['calls'] ? 'active' : ''}`}>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                toggle('calls');
-              }}
-              className={openMenus['calls'] ? 'subdrop' : ''}
-            >
-              Calls<span className="menu-arrow inside-submenu"></span>
-            </a>
-            <ul style={{ display: openMenus['calls'] ? 'block' : 'none' }}>
-              <li><a href="/calls/voice">Voice Call</a></li>
-              <li><a href="/calls/video">Video Call</a></li>
-              <li><a href="/calls/outgoing">Outgoing Call</a></li>
-              <li><a href="/calls/incoming">Incoming Call</a></li>
-              <li><a href="/calls/history">Call History</a></li>
-            </ul>
-          </li>
+                                <li className={`submenu submenu-two ${openMenus['calls'] ? 'active' : ''}`}>
+                                    <a
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        toggle('calls');
+                                    }}
+                                    className={openMenus['calls'] ? 'subdrop' : ''}
+                                    >
+                                    Calls<span className="menu-arrow inside-submenu"></span>
+                                    </a>
+                                    <ul style={{ display: openMenus['calls'] ? 'block' : 'none' }}>
+                                    <li><a href="/calls/voice">Voice Call</a></li>
+                                    <li><a href="/calls/video">Video Call</a></li>
+                                    <li><a href="/calls/outgoing">Outgoing Call</a></li>
+                                    <li><a href="/calls/incoming">Incoming Call</a></li>
+                                    <li><a href="/calls/history">Call History</a></li>
+                                    </ul>
+                                </li>
 
-          <li><a href="/calendar">Calendar</a></li>
-          <li><a href="/todo">To Do</a></li>
-        </ul>
-      </li>
-    </ul>
-                        </li>
+                                <li><a href="/calendar">Calendar</a></li>
+                                <li><a href="/todo">To Do</a></li>
+                                </ul>
+                            </li>
+                            </ul>
+                        </li> */}
+
+                       
                         {/* <li className="menu-title"><span>Track</span></li>
                         <li>
                             <ul>

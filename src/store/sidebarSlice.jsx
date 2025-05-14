@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   mobileSidebar: false,
   miniSidebar: false,
-  expandMenu: false,
+  openMenus: {},
 };
 
 const sidebarSlice = createSlice({
@@ -24,10 +24,14 @@ const sidebarSlice = createSlice({
     setExpandMenu: (state, action) => {
       state.expandMenu = action.payload;
     },
+    toggleMenu: (state, action) => {
+      const key = action.payload;
+      state.openMenus[key] = !state.openMenus[key];
+    },  
   },
 });
 
-export const { setMobileSidebar, setMiniSidebar, setExpandMenu, toggleMiniSidebar } =
+export const { setMobileSidebar, setMiniSidebar, setExpandMenu, toggleMiniSidebar, toggleMenu } =
   sidebarSlice.actions;
 
 export default sidebarSlice.reducer;

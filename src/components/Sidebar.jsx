@@ -1,17 +1,19 @@
 // src/components/Sidebar.jsx
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import classNames from 'classnames'; // npm install classnames
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleMenu } from "../store/sidebarSlice";
 
 export default function Sidebar() {
-  const mobileSidebar = useSelector((state) => state.sidebar.mobileSidebar);
-const miniSidebar = useSelector((state) => state.sidebar.miniSidebar);
-console.log(miniSidebar);
+ const dispatch = useDispatch();
+  const openMenus = useSelector((state) => state.sidebar.openMenus);
+
+  const toggle = (key) => {
+    dispatch(toggleMenu(key));
+  };
 
   return (
-    <div className={`sidebar ${miniSidebar ? 'collapsed' : ''}`} id="sidebar">
- 
-                      {/* Logo */}
+    <div className="sidebar" id="sidebar">
+            {/* Logo */}
             <div className="sidebar-logo">
                 <a href="index.html" className="logo logo-normal">
                     <img src="assets/img/logo.svg" alt="Logo" />
@@ -108,50 +110,69 @@ console.log(miniSidebar);
                     <ul>
                         <li className="menu-title"><span>Main</span></li>
                         <li>
-                            <ul>
-                                <li className="submenu">
-                                    <a href="#" className="active subdrop">
-                                        <i className="ti ti-layout-grid-add"></i><span>Dashboard</span>
-                                        <span className="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="index.html" className="active">Admin Dashboard</a></li>
-                                        <li><a href="user-dashboard.html">User Dashboard</a></li>
-                                    </ul>
-                                </li>
-                                <li className="submenu">
-                                    <a href="#">
-                                        <i className="ti ti-layout-list"></i><span>Applications</span>
-                                        <span className="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="chat.html">Chat</a></li>
-                                        <li className="submenu submenu-two">
-                                            <a href="#">Calls<span className="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="voice-call.html">Voice Call</a></li>
-                                                <li><a href="video-call.html">Video Call</a></li>
-                                                <li><a href="outgoing-call.html">Outgoing Call</a></li>
-                                                <li><a href="incoming-call.html">Incoming Call</a></li>
-                                                <li><a href="call-history.html">Call History</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="calendar.html">Calendar</a></li>
-                                        <li><a href="email.html">Email</a></li>
-                                        <li><a href="todo.html">To Do</a></li>
-                                        <li><a href="notes.html">Notes</a></li>
-                                        <li><a href="social-feed.html">Social Feed</a></li>
-                                        <li><a href="file-manager.html">File Manager</a></li>
-                                        <li><a href="kanban-view.html">Kanban</a></li>
-                                        <li><a href="invoices.html">Invoices</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="../saas-landing/index.html" target="_blank">
-                                        <i className="ti ti-layout"></i><span>SaaS Landing</span>
-                                    </a>
-                                </li>
-                            </ul>
+    <ul>
+      {/* Dashboard */}
+      <li className={`submenu ${openMenus['dashboard'] ? 'active' : ''}`}>
+        <a
+          href="#"
+          className={openMenus['dashboard'] ? 'active subdrop' : ''}
+          onClick={(e) => {
+            e.preventDefault();
+            toggle('dashboard');
+          }}
+        >
+          <i className="ti ti-layout-grid-add"></i>
+          <span>Dashboard</span>
+          <span className="menu-arrow"></span>
+        </a>
+        <ul style={{ display: openMenus['dashboard'] ? 'block' : 'none' }}>
+          <li><a href="/dashboard/admin">Admin Dashboard</a></li>
+          <li><a href="/dashboard/user">User Dashboard</a></li>
+        </ul>
+      </li>
+
+      {/* Applications */}
+      <li className={`submenu ${openMenus['applications'] ? 'active' : ''}`}>
+        <a
+          href="#"
+          className={openMenus['applications'] ? 'active subdrop' : ''}
+          onClick={(e) => {
+            e.preventDefault();
+            toggle('applications');
+          }}
+        >
+          <i className="ti ti-layout-list"></i>
+          <span>Applications</span>
+          <span className="menu-arrow"></span>
+        </a>
+        <ul style={{ display: openMenus['applications'] ? 'block' : 'none' }}>
+          <li><a href="/chat">Chat</a></li>
+
+          <li className={`submenu submenu-two ${openMenus['calls'] ? 'active' : ''}`}>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                toggle('calls');
+              }}
+              className={openMenus['calls'] ? 'subdrop' : ''}
+            >
+              Calls<span className="menu-arrow inside-submenu"></span>
+            </a>
+            <ul style={{ display: openMenus['calls'] ? 'block' : 'none' }}>
+              <li><a href="/calls/voice">Voice Call</a></li>
+              <li><a href="/calls/video">Video Call</a></li>
+              <li><a href="/calls/outgoing">Outgoing Call</a></li>
+              <li><a href="/calls/incoming">Incoming Call</a></li>
+              <li><a href="/calls/history">Call History</a></li>
+            </ul>
+          </li>
+
+          <li><a href="/calendar">Calendar</a></li>
+          <li><a href="/todo">To Do</a></li>
+        </ul>
+      </li>
+    </ul>
                         </li>
                         {/* <li className="menu-title"><span>Track</span></li>
                         <li>

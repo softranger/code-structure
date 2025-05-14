@@ -16,10 +16,11 @@ export default function Header() {
 const dispatch = useDispatch();
 const mobileSidebar = useSelector((state) => state.sidebar.mobileSidebar);
 
-  // Toggle mobile sidebar
+// Mobile toggle
 const toggleMobileSidebar = () => {
   dispatch(setMobileSidebar(!mobileSidebar));
 };
+
 
   const handleToggle = () => {
     // alert("fdd");
@@ -40,13 +41,12 @@ const toggleMobileSidebar = () => {
                         <img src="assets/img/logo-white.svg" alt="Logo" />
                     </a>
                 </div>
-                <button
+                    <button
                     id="mobile_btn"
                     className="mobile_btn"
-                    href="#"
                     onClick={(e) => {
                         e.preventDefault();
-                        toggleMobileSidebar(); // <- Redux-based toggle
+                        toggleMobileSidebar(); // ✅ Redux-based toggle
                     }}
                     >
                     <span className="bar-icon">

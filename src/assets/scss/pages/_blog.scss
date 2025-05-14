@@ -1,0 +1,79 @@
+/*============================
+  46. blog
+============================*/
+
+.blog-card{
+    .card-image{
+        overflow: hidden;
+        position: relative;
+        &:hover{
+            img{
+                transform: scale(1.2);
+            }
+        }
+        img{
+            transition: .4s;
+        }
+        .badge{
+            position: absolute;
+            right: 8px;
+            top: 8px;
+        }
+        .badge-tag{
+            right: auto;
+            left: 8px;
+        }
+    }
+    .blog-info{
+            li{
+              &::before{
+                position: relative;
+                content: "";
+                width: 1px;
+                height: 15px;
+                background-color: #E7E7E7;
+                display: block;
+                margin-right: 6px;
+              }
+              &:first-child{
+                &::before{
+                    display: none;
+                }
+              }
+        }
+        .avatar-sm{
+            width: 14px;
+            height: 14px;
+        }
+    }
+    .like-share{
+        ul{
+            li{
+                display: flex;
+                align-items: center;
+                &::after{
+                    position: relative;
+                    content: "";
+                    width: 1px;
+                    height: 32px;
+                    background-color: #E7E7E7;
+                    margin-right: 6px;
+                    display: block;
+                  }
+                  &:last-child{
+                    &::after{
+                        display: none;
+                    }
+                  } 
+            }
+        }
+    }
+}
+
+.blog-modal{
+    .select2-container--default {
+        .select2-selection--multiple{
+            margin-top: 0;
+        }
+    }
+}

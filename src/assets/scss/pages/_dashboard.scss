@@ -1,0 +1,160 @@
+/*============================
+  48. dashboard
+============================*/
+
+.time-icon {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+}
+
+.task-canvas {
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+}
+
+.chart-text {
+	i {
+		transform: rotate(-45deg);
+		display: inline-block;
+	}
+}
+
+#s-col {
+	.apexcharts-legend {
+		display: none;
+	}
+}
+
+
+// onion chart
+.chart-container {
+	position: relative;
+	width: 250px;
+	height: 236px;
+	margin: auto;
+	.circle {
+		position: absolute;
+		border-radius: 50%;
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		font-weight: $font-weight-medium;
+		font-size: $font-size-16;
+		color: $white;
+		border: 3px solid $white;
+		padding-top: 10px;
+	}
+	.circle1 {
+		width: 207px;
+		height: 207px;
+		background-color: $success;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.circle2 {
+		width: 137px;
+		height: 137px;
+		background-color: $violet;
+		bottom: 10px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.circle3 {
+		width: 84px;
+		height: 84px;
+		background-color: $secondary;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+.legend {
+	margin-top: 16px;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	div {
+		display: flex;
+		align-items: center;
+	}
+	span {
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+	}
+	.green {
+		background-color: $success;
+	}
+	.purple {
+		background-color: $violet;
+	}
+	.orange {
+		background-color: $secondary;
+	}
+}
+
+// onion chart
+.manual-action {
+	a {
+		&:hover {
+			background-color: $light;
+		}
+	}
+}
+
+.top-employees {
+	.card {
+		margin-bottom: 1.25rem;
+	}
+}
+
+.play-icon {
+	background-color: $primary;
+
+	&.pause {
+		background-color: $orange;
+	}
+}
+
+.check-icon {
+	border: 1px solid $border-color;
+
+	&:hover {
+		background: $primary;
+		border-color: $primary;
+	}
+}
+
+.line-icon {
+	width: 4px;
+	height: 8px;
+	border-radius: 5px;
+	display: block;
+}
+
+.chart-color {
+	width: 20px;
+	height: 10px;
+	display: block;
+}
+
+.reportrange-picker {
+	color: $title-color;
+	padding: 7px 12px;
+	font-size: 12px;
+	font-weight: 500;
+	text-transform: uppercase;
+	border: 1px solid $border-color;
+	background-color: $white;
+	border-radius: 5px;
+}

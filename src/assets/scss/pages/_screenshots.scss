@@ -1,0 +1,58 @@
+/*============================
+  61. screenshots
+============================*/
+
+.screenshot-item{
+    border-radius: 10px;
+}
+.fancybox-content{
+    .fancybox-image{
+        border-radius: 10px;
+    }
+}
+.fancybox-caption__body{
+    overflow: hidden;
+}
+.screenshot-info-top{
+    background-color: $dark;
+    padding: 15px;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+.screenshot-info-bottom{
+    background-color: $dark;
+    padding: 15px;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    .download-icon{
+        color: $orange !important;
+        text-decoration: none !important;
+    }
+    .delete-icon{
+        color: $danger !important;
+        text-decoration: none !important;
+    }
+}
+.fancybox-button{
+    &.fancybox-button--arrow_right{
+        background-color: $white !important;
+        color: $gray-900;
+    }
+    &.fancybox-button--arrow_left{
+        background-color: $white !important;
+        color: $gray-900;
+    }
+}
+
+
+
+.fancybox-image {
+    object-fit: contain;
+    @include respond-below(lg){
+        padding: 10px 0;
+    }
+}

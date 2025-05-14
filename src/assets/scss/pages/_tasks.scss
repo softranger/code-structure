@@ -1,0 +1,17 @@
+/*============================
+  63. tasks
+============================*/
+
+.kanban-drag-wrap{
+    min-width: 230px;
+    min-height: 50px;
+    .card{
+        box-shadow: none;
+    }
+}
+.manual-time-card{
+    @include respond-below(lg){
+        border-right: 1px solid $gray-100 !important;
+        border-radius: 5px !important;
+    }
+}

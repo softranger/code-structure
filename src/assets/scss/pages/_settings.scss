@@ -1,0 +1,384 @@
+/*============================
+  62. settings
+============================*/
+
+.sidebars {
+    &.settings-sidebar {
+        position: relative;
+        z-index: 1;
+        top: unset;
+        left: unset;
+        bottom: unset;
+        width: 200px;
+        margin-right: 24px;
+        border-right: 0;
+        border-radius: 5px;
+        flex-shrink: 0;
+        .sidebar-menu{
+            margin-top: 0;
+        }
+        .slimScrollDiv{
+            top: 0;
+        }
+        @include respond-below(xl) {
+            margin-right: 15px;
+        }
+        @include respond-below(lg) {
+            display: none;
+        }
+        .slimScrollDiv {
+            background-color: transparent;
+            width: 309px !important;
+            @include respond-below(xl) {
+                width: 250px !important;
+            }
+            @include respond-below(xl) {
+                width: 200px !important;
+            }
+        }
+        .sidebar-menu {
+            @include respond-below(xl) {
+                padding: 10px 8px;
+            }
+            & > ul > li ul li a i {
+                color: $gray-900;
+            }
+            ul{
+                li{
+                    ul{
+                        li{
+                            a{
+                                padding: 4px 12px;                            
+                            }
+                            &.active{
+                                a{
+                                    background-color: $primary;
+                                    color: $white;
+                                    i{
+                                        color: $white;  
+                                    }
+                                    span{
+                                        color: $white;  
+                                    }
+                                }
+                              
+                            }
+                        }
+                    }
+                }
+            }
+            h4 {
+                color: $secondary;
+                border-bottom: 1px solid $secondary-transparent;
+            }
+            .menu-arrow {
+                right: 5px;
+                background-color: transparent;          
+                &::before {
+                    border-left: 1.5px solid $gray-900;
+                    border-bottom: 1.5px solid $gray-900;
+                    border-right: none;   
+                    transform: rotate(-45deg);  
+                }
+            }
+            .submenu-open {
+                ul {
+                    margin: 0;
+                    border-bottom: 0;
+                    padding: 5px 0 0;
+                    .submenu {
+                        margin-bottom: 8;
+                        a {
+                            width: 100%;
+                            padding: 4px 12px;
+                            border-radius: 4px;
+                            &.active {
+                                background-color: $primary;
+                                color: $white;
+                                span{
+                                    color: $white;
+                                }
+                                i{
+                                    color: $white; 
+                                }
+                                &.subdrop {
+                                    background-color: $primary;
+                                    color: $white;
+                                    margin-bottom: 0;
+                                    span{
+                                        color: $white;
+                                    }
+                                    i{
+                                        color: $white; 
+                                    }
+                                }
+                                .menu-arrow {
+                                    &::before {
+                                        border-color: $white;
+                                        transform: rotate(137deg);
+                                    }
+                                }
+                            }
+                            &.subdrop {
+                                background-color: $primary;
+                                span{
+                                    color: $white;
+                                }
+                                i{
+                                    color: $white; 
+                                }
+                                .menu-arrow {
+                                    transform: rotate(180deg);
+                                    -webkit-transform: rotate(180deg);
+                                    -ms-transform: rotate(180deg);
+                                    color: $white;
+                                }
+                                .arrow-menu{
+                                    transform: rotate(180deg);
+                                    -webkit-transform: rotate(180deg);
+                                    -ms-transform: rotate(180deg); 
+                                }
+                            }
+                            i {
+                                color: $gray-900;
+                            }
+                            svg {
+                                color: $secondary;
+                            }
+                            span {
+                                color: $title-color;
+                                @include respond-below(xl) {
+                                    font-size: $font-size-base;
+                                }
+                            }
+                        }
+                        ul {
+                            li {
+                                margin: 0;
+                                margin-left: 21px;
+                                a {
+                                    margin-left: 0;
+                                    background-color: transparent;
+                                    &::before {
+                                        content: "";
+                                        width: 4px;
+                                        height: 4px;
+                                        border-radius: 50%;
+                                        background-color: $gray-500;
+                                        left: 0;
+                                        border: 0;
+                                        position: absolute;
+                                    }
+                                    &.active {
+                                        color: $primary;
+                                        border-radius: 8px;
+                                        background-color: transparent;
+                                        &::before {
+                                            background-color: $primary;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }     
+                }
+                
+            }
+        }
+    }
+}
+
+.drag-upload-btn {
+    input {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+}
+.add-flag{
+    position: relative;
+    img{
+        width: 22px;
+        border-radius: 2px;
+    }
+    .flag{
+      color: $gray-900;
+      position: absolute;
+      top: 8px;
+      left: 12px;
+    }
+    .form-control{
+        padding-left: 70px;
+    }
+}
+
+.theme-colors{
+    ul li{
+        margin-right: 10px;
+    }
+    ul li span{
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        background-color: $white;
+        border: 1px solid $dark-transparent;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        .primecolor{
+            content: "";
+            display: flex;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            opacity: 1;
+            position: relative;
+            .colorcheck{
+                visibility: hidden;
+                width: 12px;
+                height: 12px;
+                background: $white;
+                border-radius: 4px;
+  
+            }
+            &:hover.colorcheck{
+                visibility: visible;
+            }
+  
+        }
+        &.active .colorcheck{
+            visibility: visible;
+        }
+    }
+}
+
+.icon-time.input-icon-end {
+    .form-control{
+       padding-left: 34px;
+       @include respond-below(sm){
+        font-size: 13px;
+       }
+    }
+    .icon-selector{
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.working-days{
+    @include respond-below(sm) {
+      flex-wrap: wrap;
+    } 
+}
+.break-hours{
+    @include respond-below(sm) {
+        margin-top: 10px;
+      } 
+}
+.lunch-hours{
+    @include respond-below(sm) {
+        flex-wrap: wrap;
+    } 
+}
+.iti--allow-dropdown{
+    z-index: 1;
+}
+.password-strength {
+	display: flex;
+	margin-top: 15px;
+}
+.password-strength {
+	span {
+		width: 100%;
+		height: 5px;
+		background: $gray-100;
+		margin-right: 10px;
+		border-radius: 5px;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+.weak-pass {
+	.password-strength {
+		span {
+			background: $danger;
+		}
+	}
+}
+.payment_custom_check {
+    width: 100%;
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+    h6, p{
+        @include respond-below(xl){
+            font-size: $font-size-13;
+        }
+    }
+    .payment_checkmark {
+        border: 1px solid $border-color;
+        padding: 10px 15px;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding: 8px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        transition: 0.5s all;        
+        cursor: pointer;
+        .checked-title {
+            color: $gray-100;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            flex-direction: column;
+            transition: 0.5s all;
+            width: 70px;
+            border: 1px solid $border-color;
+            border-radius: 10px;
+            margin-right: 8px;
+            flex-shrink: 0;
+            @include respond-below(xl){
+             width: 55px;
+             padding: 5px;
+             height: 40px;             
+            }
+        }
+    }
+    input:checked ~ .payment_checkmark {
+        border-color: $primary;
+        background: $white;
+        transition: 0.5s all;
+    }
+}
+
+.theme-type-images {
+    .theme-image {
+        border-width: 2px;
+        border-color: transparent;
+        box-shadow: 0px 4px 60px 0px #E7E7E778;
+        p {
+            color: $gray-500;
+        }
+        &.active {
+            border-color: $primary;
+            p {
+                color: $primary;
+            }
+        }
+    }
+}

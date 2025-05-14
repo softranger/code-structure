@@ -1,0 +1,253 @@
+/*============================
+  66. web-app
+============================*/
+
+.app-header {
+    padding: 4px 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 29px;
+    z-index: 9;
+    .app-logo {
+        img {
+            height: 17px;
+        }
+    }
+}
+.app-menu {
+    width: 80px;
+    padding: 16px 8px;
+    height: calc(100vh - 29px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 29px;
+    left: 0;
+    .menu-logo {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    ul {
+        margin-bottom: 20px;
+        li {
+            margin-bottom: 16px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+            a {
+                @include rounded(5px);
+                padding: 4px;
+                font-size: $font-size-10;
+                font-weight: $font-weight-semibold;
+                text-align: center;
+                color: $light;
+                display: flex;
+                flex-direction: column;
+                i {
+                    font-size: $font-size-20;
+                    margin-bottom: 4px;
+                }
+                &.active {
+                    background: $gray-900;                        
+                    border-bottom: 2px solid $primary;
+                }
+                &:hover {
+                    background: $gray-900;        
+                }
+            }
+        }
+    }
+}
+.app-wrapper {
+    .page-wrapper {
+        padding: 29px 0 0;
+        margin: 0 0 0 80px;
+        .content {
+            min-height: calc(100vh - 69px);
+        }
+    }
+}
+.session-card {
+    z-index: 0;
+    .session-bg {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+        width: 100%;
+    }
+}
+.dropdown{
+    .project-dropdwon{
+        width: 100%;
+        border: 1px solid #F3F4F633;
+        font-size: $font-size-12;
+        font-weight: $font-weight-normal;
+        padding: 4px 12px;
+        i{
+            margin-left: auto;
+            color: $white !important;
+        }
+        &.show{
+            i{
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+.app-note-icon, .app-check-icon{
+    border: none !important;
+    color: $white;
+    flex-shrink: 0;
+}
+.play-icon {
+    background-color: $primary;
+    &.pause {
+        background-color: $orange;
+    }
+}
+.badge-icon {
+    width: 14px;
+    height: 14px;
+    @include rounded(5px);
+}
+.today-report, .weekly-report{
+    border-color: $light;
+    box-shadow: 0px 4px 14px 0px #E6E6E640;
+}
+
+.application-wrapper{
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    .header{
+        left: 0;
+        background-color: $light;
+        border-bottom: none;
+        height: auto;
+        padding: 2px 0;
+        position: relative;
+        .logo{
+           img{
+            height: 22px;
+            width: auto;
+           }
+        }
+    }
+    .page-wrapper{
+        margin-left: 80px;
+    }
+    .sidebar{
+        width: 80px;
+        margin-left: 0;
+        top: 27px;
+        background-color: $dark;
+        padding: 8px;
+        position: absolute;
+        height: 100%;
+        ul{
+            li{
+                margin-bottom: 10px;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+                a{
+                    font-size: $font-size-10;
+                    color: $light;
+                    padding: 4px;                    
+                    border-radius: 5px;
+                    font-weight: $font-weight-semibold;
+                    display: block;
+                    text-align: center;
+                    border-bottom: 2px solid transparent;
+                    &.active{
+                        color: $light;
+                      border-bottom: 2px solid $primary; 
+                      background-color: $gray-900;
+                    }
+                    &:hover{
+                      color: $white;
+                      border-bottom: 2px solid $primary; 
+                      background-color: $gray-900;  
+                    }
+                    i{
+                        display: block;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .page-wrapper{
+        padding-top: 0;
+        .current-session{
+            background: linear-gradient(180deg, #3550DC 0%, #101F6A 100%);
+            border: 0;
+            z-index: 0;
+            .current-session-bg{
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                z-index: -1;
+                width: 100%;
+            }
+        }
+        .col-5.page-content-left{
+            width: 43%;
+        }
+        .col-7.page-content-right{
+            width: 57%;
+        }
+        .dropdown{
+            .project-dropdwon{
+                width: 100%;
+                border: 1px solid #F3F4F633;
+                font-size: $font-size-12;
+                font-weight: $font-weight-normal;
+                i{
+                    margin-left: auto;
+                    color: $white !important;
+                }
+                &.show{
+                    i{
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+    }
+    .allotted-time-content{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .app-note-icon, .app-check-icon{
+        border: none !important;
+        color: $white;
+        flex-shrink: 0;
+    }
+    .play-pause-icon{
+        width: 48px;
+        height: 48px;
+        background-color: $primary;
+    }
+    .today-report, .weekly-report{
+        border-color: $light;
+        background: linear-gradient(135.02deg, #EDF0FF 35.76%, #FFFFFF 106.08%);
+        box-shadow: 0px 4px 14px 0px #E6E6E640;
+        .card-body{
+            padding: 16px 13px;
+             i{
+                padding: 2px;
+             }
+        }
+    }
+    .weekly-report{
+        background: linear-gradient(152.93deg, #FFF3E8 16.91%, #FFFFFF 100.77%);
+    }
+}

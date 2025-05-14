@@ -1,0 +1,33 @@
+/*============================
+  59. projects-and-tasks
+============================*/
+
+.emp-search{
+    .emp-name{
+        padding: 5px 8px;
+    }
+    .avatar{
+        width: 16px;
+        height: 16px;
+    }
+}
+.no-pagination{
+    .dataTables_paginate, .dataTables_length{
+        display: none;
+    }
+}
+.no-filter{
+    .dataTables_filter{
+        display: none;
+    }
+}
+.task-collapse{
+    &.collapsed{
+        i{
+            transform: rotate(-180deg);
+        }
+    }
+}
+.dropdown-employee{
+    min-width: 200px;
+}

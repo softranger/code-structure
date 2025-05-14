@@ -1,0 +1,42 @@
+/*============================
+  49. download
+============================*/
+
+.download-content {
+    .download-item-1 {
+        padding: 20px;
+        background: $light-500;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        a {
+            &:hover {
+                box-shadow:  0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                h5 {
+                    color: $primary;
+                }
+            }
+        }
+    }
+    .download-form-cover {
+        margin: 20px 0;
+        position: relative;
+        .btn.copy-url-btn {
+            position: absolute;
+            top: 6px;
+            right: 10px;
+        }
+    }
+}
+.count {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: $danger;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $white !important;
+    margin-left: auto;
+}

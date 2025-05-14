@@ -1,0 +1,168 @@
+/*---------------------------------------------------------------------------------
+
+    Template Name: Clockfie
+    Version      : 1.0
+    Author: Dreams Technologies
+    Author URI: https://themeforest.net/user/dreamstechnologies
+
+-----------------------------------------------------------------------------------
+
+/*============================
+[Table of CSS]
+
+1. variables
+2. mixins
+3. base
+4. background
+5. accordion
+6. alerts
+7. avatar
+8. badge
+9. boostrap
+10. border
+11. breadcrumb
+12. button
+13. calendar
+14. call
+15. cards
+16. chart
+17. dropdown
+18. file-manager
+19. file-upload
+20. font
+21. form-wizard
+22. forms
+23. grid
+24. icons
+25. incoming-call
+26. navs-tabs
+27. notes
+28. pagination
+29. popovers
+30. popup
+31. progress
+32. ribbon
+33. sweetalert
+34. tables
+35. timeline
+36. todo
+37. tooltips
+38. typography
+39. common
+40. content
+41. header
+42. notification
+43. sidebar
+44. theme-settings
+45. theme
+46. blog
+47. chat
+48. dashboard
+49. download
+50. email
+51. employees
+52. expense
+53. leave
+54. live-tracking
+55. loader
+56. login
+57. pricing
+58. project-details
+59. projects-and-tasks
+60. projects
+61. screenshots
+62. settings
+63. tasks
+64. timeline
+65. ui-pages
+66. web-app
+67. datatables
+68. rangepicker-plugin
+69. select2
+============================*/
+
+/****** Utils ******/
+@import "utils/variables";
+@import "utils/mixins";
+
+/******* Base *******/
+@import "base/base";
+@import "base/background";
+
+/******* Components ******/
+@import "components/avatar";
+@import "components/boostrap";
+@import "components/button";
+@import "components/badge";
+@import "components/border";
+@import "components/calendar";
+@import "components/chart";
+@import "components/dropdown";
+@import "components/icons";
+@import "components/incoming-call";
+@import "components/call";
+@import "components/progress";
+@import "components/notes";
+@import "components/todo";
+@import "components/pagination";
+@import "components/file-manager";
+@import "components/font";
+@import "components/typography";
+@import "components/alerts";
+@import "components/popovers";
+@import "components/forms";
+@import "components/tables";
+@import "components/accordion";
+@import "components/breadcrumb";
+@import "components/cards";
+@import "components/tooltips";
+@import "components/navs-tabs";
+@import "components/ribbon";
+@import "components/popup";
+@import "components/grid";
+@import "components/file-upload";
+@import "components/timeline";
+@import "components/sweetalert";
+
+/****** Layout ******/
+@import "layout/common";
+@import "layout/content";
+@import "layout/header";
+@import "layout/sidebar";
+@import "layout/notification";
+@import "layout/theme";
+@import "layout/theme-settings";
+
+/******* Vendors ******/
+@import "vendors/select2";
+@import "vendors/datatables";
+@import "vendors/rangepicker-plugin";
+
+/******* Pages ******/
+@import "pages/ui-pages";
+@import "pages/live-tracking";
+@import "pages/chat";
+@import "pages/project-details";
+@import "pages/loader";
+@import "pages/leave";
+@import "pages/login";
+@import "pages/email";
+@import "pages/expense";
+@import "pages/projects";
+@import "pages/projects-and-tasks";
+@import "pages/timeline";
+@import "pages/employees";
+@import "pages/pricing";
+@import "pages/settings";
+@import "pages/blog";
+@import "pages/dashboard";
+@import "pages/tasks";
+@import "pages/screenshots";
+@import "pages/download";
+@import "pages/web-app";
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+/*============================
+  57. pricing
+============================*/
+
+.tab-pricing{
+    width: 100%;
+    border-bottom: 1px solid $gray-100;
+    margin-bottom: 24px;
+    border-radius: 0;
+    padding: 0;
+    .nav-link{
+        padding: 5px;
+        color: $gray-900;
+        font-weight: $font-weight-medium;
+        &.active{
+            border: 1px;
+            background-color: $dark;
+            color: $white !important;
+        }
+    }
+}

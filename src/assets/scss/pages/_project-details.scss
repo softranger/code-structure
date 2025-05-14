@@ -1,0 +1,69 @@
+/*============================
+  58. project-details
+============================*/
+
+.project-icon {
+    width: 50px;
+    height: 50px;
+    @include rounded(5px);
+}
+.pro-card {
+    position: relative;
+    z-index: 1;
+    .pro-bg {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+}
+.action-item {
+    & > a {
+        width: 20px;
+        height: 20px;
+        @include rounded(50%);
+        color: $gray-900;
+        border: 1px solid $border-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .dropdown-menu {
+        li {
+            a {
+                i {
+                    color: $gray-500;
+                }
+                &:hover {
+                    i {
+                        color: $title-color;
+                    }
+                }
+                &.link-danger {
+                    i {
+                        color: $danger;
+                    }
+                }
+            }
+        }
+    }
+}
+.num-icon {
+    width: 12px;
+    height: 12px;
+    @include rounded(50%);
+}
+.task-status {
+    min-width: 400px;
+}
+.chart-flag{
+    padding-left: 20%;
+}
+.line {
+    width: 100%;
+    height: 2px;
+    border-bottom: 2px dotted $gray-100;
+}
+.task-round{
+    border-radius: 20px;
+}

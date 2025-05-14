@@ -1,0 +1,46 @@
+/*============================
+  52. expense
+============================*/
+
+.file-upload-down{
+    .file-upload {
+        border-radius: 5px;
+        border: 1px dashed $gray-100;
+        margin-bottom: 0;
+        position: relative;
+    input[type=file] {
+        width: 100%;
+        opacity: 0;
+        height: 120px;
+        position: relative;
+        z-index: 9;
+        cursor: pointer;
+        color: $gray-500;
+    }
+}
+    .file-uploads {
+        text-align: center;
+        width: 100%;
+        padding: 24px 0;
+        border-radius: 5px;
+        position: absolute;
+        top: 0;
+    }
+}
+.delete-select{
+    padding: 5px 8px;
+}
+.dot-settings{
+    width: 20px;
+    height: 20px;
+    border: 1px solid $gray-100;
+    border-radius: 50%;
+    font-size: $font-size-12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $gray-900 !important;
+    &:hover{
+        background-color: $light;
+    }
+}

@@ -1,0 +1,155 @@
+/*============================
+  8. badge
+============================*/
+
+.badge {
+    &.badge-cyan{
+        background-color: $cyan;
+        color: $white;
+    }
+    &.badge-pink{
+        background-color: $pink;
+        color: $white;
+    }
+    &.badge-primary {
+        background: $primary;
+        color: $white;
+    }
+    &.badge-soft-primary {
+        background: $primary-transparent;
+        color: $primary;
+    }
+    &.badge-soft-secondary {
+        background: $secondary-transparent;
+        color: $secondary;
+    }
+    &.badge-soft-light {
+        background: $light-transparent;
+        color: $gray-900;
+    }
+    &.badge-soft-dark {
+        background: $dark-transparent;
+        color: $dark;
+    }
+    &.badge-soft-info {
+        background: $info-transparent;
+        color: $info;
+    }
+    &.badge-soft-warning {
+        background:$warning-transparent;
+        color: $warning;
+    }
+    &.badge-soft-danger {
+        background:$danger-transparent;
+        color: $danger;
+    }
+    &.badge-soft-success {
+        background:$success-transparent;
+        color: $success;
+    }
+    &.badge-soft-pink {
+        background:$pink-transparent;
+        color: $pink;
+    }
+    &.badge-outline-primary {
+        border: 1px solid $primary;
+        color: $primary;
+    }
+}
+@each $color, $value in $theme-colors {
+    .badge {
+        &.badge-#{$color} {
+            background: #{$value};
+            color: $white;
+        }
+        &.badge-outline-#{$color} {
+            border: 1px solid #{$value};
+            color: $value;
+        }
+    }
+}
+.badge-border {
+    border-left: 2px solid;
+}
+.badge{
+    padding: .25rem .5rem;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-10;
+    letter-spacing: 0.5px;
+    border-radius: $border-radius-lg;
+    &.badge-xs {
+        font-size: 10px;
+        font-weight: $font-weight-medium;
+        padding: 0px 5px;
+        line-height: 18px;
+    }
+    &.badge-sm {
+        font-size: 11px;
+        padding: 5px 8px;
+        line-height: 11px;
+    }
+    &.badge-md {
+        font-size: 12px;
+        padding: 5px 12px;
+        line-height: 1.5;
+    }
+    &.badge-lg {
+        font-size: $font-size-14;
+        padding: 0px 10px;
+        line-height: 30px;
+    }
+    &.badge-xl {
+        font-size: $font-size-16;
+        padding: 0px 15px;
+        line-height: 35px;
+    }
+    &.badge-soft-cyan {
+        background: $cyan-100;
+        color: $cyan;
+    }
+}
+h1, h2, h3, h4, h5, h6 {
+    .badge {
+        font-size: inherit;
+    }
+}
+.badge-label {
+    margin-left: 8px;
+    position: relative;
+    &::before {
+        content: "";
+        position: absolute;
+        border: 9px solid transparent;
+        border-right-color: transparent;
+        left: -15px;
+        top: 0;
+    }
+    &.badge-primary:before {
+        border-right-color: $primary;
+    }
+    &.badge-secondary:before {
+        border-right-color: $secondary;
+    }
+    &.badge-warning:before {
+        border-right-color: $warning;
+    }
+    &.badge-success:before {
+        border-right-color: $success;
+    }
+    &.badge-info:before {
+        border-right-color: $info;
+    }
+    &.badge-dark:before {
+        border-right-color: $dark;
+    }
+    &.badge-danger:before {
+        border-right-color: $danger;
+    }
+}
+
+.pricing-badge{
+    position: absolute;
+    top: 40px;
+    right: -45px;
+    transform: rotate(45deg);
+}

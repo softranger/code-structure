@@ -1,4 +1,53 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 export default function UserList() {
+
+    const navigate = useNavigate();
+
+    const [users, setUsers] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    const fetchUsers = async (page = 1) => {
+        try {
+        const res = await axios.get(`http://localhost:5000/api/users/?page=${page}&limit=10`);
+        setUsers(res.data.users);
+        setTotalPages(res.data.totalPages);
+        setPage(res.data.page);
+        } catch (err) {
+        console.error('Error fetching users', err);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers(page);
+    }, [page]);
+
+
+    const handleEdit = (userId) => {
+       navigate(`/users/edit-user/${userId}`);
+    };
+
+    const  handleDelete = async (userId) => {
+        if (!window.confirm('Are you sure you want to delete this user?')) return;
+
+        try {
+          const res=  await axios.delete(`http://localhost:5000/api/users/${userId}`);
+            alert('User deleted');
+            fetchUsers(page); // re-fetch the list
+        } catch (error) {
+            console.error('Error deleting user', error);
+            alert('Error deleting user');
+        }
+    };
+
+    const handlePrev = () => setPage(p => Math.max(p - 1, 1));
+    const handleNext = () => setPage(p => Math.min(p + 1, totalPages));
+
+
+
 
   return (
         <div>
@@ -92,90 +141,78 @@ export default function UserList() {
                 <div className="table-responsive">
                     <table className="table datatable">
                         <thead className="thead-light">
-                            <tr>
-                                <th className="no-sort">NAME</th>
-                                <th className="no-sort">LAST PUNCH IN</th>
-                                <th className="no-sort">LEVEL</th>
-                                <th className="no-sort">SCREENSHOT</th>
-                                <th className="no-sort">MANUAL TIME</th>
-                                <th className="no-sort">PERMANENT TASKE</th>
-                                <th className="no-sort">STATUS</th>
-                                <th className="no-sort"></th>
-                            </tr>
+                        <tr>
+                            <th>NAME</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>LEVEL</th>
+                            <th>STATUS</th>
+                            <th></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div className="d-flex align-items-center">
-                                        <a href="employee-details.html" className="avatar online avatar-rounded">
-                                            <img src="assets/img/users/user-01.jpg" className="img-fluid" alt="img" />
-                                        </a>
-                                        <div className="ms-2">
-                                            <h6 className="fw-medium mb-1"><a href="employee-details.html">Shaun Farley</a></h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>11 May 2025, 12:00 PM</td>
-                                <td>
-                                    <div className="dropdown">
-                                        <a href="#" className="btn btn-md btn-white d-inline-flex align-items-center emp-name" data-bs-toggle="dropdown" aria-expanded="false">
-                                            User<i className="ti ti-chevron-down ms-2"></i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-end p-3">
-                                            <li>
-                                                <a href="#" className="dropdown-item rounded-1 d-flex align-items-center">	
-                                                    Manager
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" className="dropdown-item rounded-1 d-flex align-items-center">	
-                                                    Admin
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-switch">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-switch">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-switch">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="badge badge-sm bg-success fs-10"><i className="ti ti-point-filled"></i> Active</span>
-                                </td>
-                                <td className="action-item">
-                                    <a className="action-set dot-settings" href="#" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <i className="ti ti-dots-vertical" aria-hidden="true"></i>
+                        {users.map(user => (
+                            <tr key={user._id}>
+                            <td>
+                                <div className="d-flex align-items-center">
+                                <a className="avatar online avatar-rounded">
+                                    <img src="../assets/img/users/user-01.jpg" className="img-fluid" alt="img" />
+                                </a>
+                                <div className="ms-2">
+                                    <h6 className="fw-medium mb-1">{user.name}</h6>
+                                </div>
+                                </div>
+                            </td>
+                            <td>{user.phone}</td>
+                            <td>{user.email}</td>
+                            <td>User</td>
+                            <td>
+                                <span className="badge badge-sm bg-success fs-10">
+                                <i className="ti ti-point-filled"></i> Active
+                                </span>
+                            </td>
+                            <td className="action-item">
+                                <a className="action-set dot-settings" href="#" data-bs-toggle="dropdown">
+                                <i className="ti ti-dots-vertical"></i>
+                                </a>
+                                <ul className="dropdown-menu p-2 rounded-2">
+                                 <li>
+                                    <a
+                                    href="#"
+                                    className="dropdown-item"
+                                    onClick={() => handleEdit(user._id)}
+                                    >
+                                    Edit User
                                     </a>
-                                    <ul className="dropdown-menu p-2 rounded-2">
-                                        <li>
-                                            <a href="edit-user.html" className="dropdown-item rounded-2"><i className="ti ti-edit me-2"></i>Edit User</a>
-                                        </li>
-                                        <li>
-                                            <a href="reset-password.html" className="dropdown-item rounded-2"><i className="ti ti-lock me-2"></i>Reset Password</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="dropdown-item rounded-2"><i className="ti ti-ban me-2"></i>Suspend User</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="dropdown-item rounded-2 text-danger"><i className="ti ti-trash text-danger me-2"></i>Remove User</a>
-                                        </li>
-                                    </ul>
-                                </td>
+                                </li>
+                                <li><a href="#" className="dropdown-item">Suspend User</a></li>
+                                <li>
+                                 <a
+                                    href="#"
+                                    className="dropdown-item text-danger"
+                                    onClick={() => handleDelete(user._id)}
+                                    >
+                                    Remove User
+                                 </a>
+                                </li>
+                                </ul>
+                            </td>
                             </tr>
+                        ))}
                         </tbody>
                     </table>
-                </div>
+
+                    {/* Pagination */}
+                    <div className="d-flex justify-content-between mt-3">
+                        <button className="btn btn-sm btn-outline-primary" disabled={page <= 1} onClick={handlePrev}>
+                        Previous
+                        </button>
+                        <span>Page {page} of {totalPages}</span>
+                        <button className="btn btn-sm btn-outline-primary" disabled={page >= totalPages} onClick={handleNext}>
+                        Next
+                        </button>
+                    </div>
+                    </div>
                  {/* /Table List  */}
         </div>
   );

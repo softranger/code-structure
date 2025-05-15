@@ -1,13 +1,99 @@
-import { NavLink, Outlet } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import React, { useEffect, useState } from 'react';
 
 export default function UserCreate() {
-    const navigate = useNavigate();
+  const { id: userId } = useParams();  // check if we're editing
+  const navigate = useNavigate();
 
-    const handleNavigation = (e, path) =>{
-        e.preventDefault();
-        navigate(path);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    password: ""
+  });
+
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const isEditMode = Boolean(userId);
+
+  useEffect(() => {
+    if (isEditMode) {
+      setLoading(true);
+      axios.get(`http://localhost:5000/api/users/${userId}`)
+        .then((res) => {
+          const user = res.data;
+          console.log(user);
+          setFormData({
+            name: user.name || '',
+            email: user.email || '',
+            phone: user.phone || '',
+            address: user.address || '',
+            password: ''  // never prefill password
+          });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Failed to load user data.');
+        })
+        .finally(() => setLoading(false));
     }
+  }, [userId]);
+
+  const validate = () => {
+    const errs = {};
+    if (!formData.name) errs.name = "Name is required";
+    if (!formData.email) errs.email = "Email is required";
+    if (!formData.phone) errs.phone = "Phone is required";
+    return errs;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    try {
+      let response;
+      if (isEditMode) {
+        console.log("iseditable");
+        response = await axios.put(
+          `http://localhost:5000/api/users/update/${userId}`,
+          formData,
+          { headers: { "Content-Type": "application/json" } }
+        );
+        alert('User updated successfully');
+      } else {
+        console.log("store");
+
+        response = await axios.post(
+          "http://localhost:5000/api/users/store",
+          formData,
+          { headers: { "Content-Type": "application/json" } }
+        );
+        alert('User created successfully');
+      }
+
+      navigate('/users');
+    } catch (error) {
+      console.error("Error saving user:", error);
+      alert("Failed to save user.");
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const handleNavigation = (e) => {
+    navigate('/users');
+  }
+
 
   return (
         <div>
@@ -15,38 +101,32 @@ export default function UserCreate() {
                     <div className="col-md-10">
                         {/* <!-- Breadcrumb --> */}
                         <div className="mb-4">
-                            <a href="#" onClick={(e) => handleNavigation(e, '/users')}  className="text-gray-9"><i className="ti ti-arrow-left me-1"></i>Back to Users List</a>
+                            <a href="#" onClick={(e) => handleNavigation()}  className="text-gray-9"><i className="ti ti-arrow-left me-1"></i>Back to Users List</a>
                         </div>
                         {/* <!-- /Breadcrumb --> */}
 
                         <div className="card">
                             <div className="card-header">
-                                <h5 className="fw-bold">Create User</h5>
+                                <h5 className="fw-bold">{isEditMode ? "Edit User" : "Create User"}</h5>
                             </div>
                             <div className="card-body">
                                 <ul className="nav nav-tabs tab-style-project d-inline-flex d-block" role="tablist">
                                     <li className="nav-item">
                                         <a href="#" className="nav-link d-flex align-items-center active" data-bs-toggle="tab" data-bs-target="#basic-information">Basic Information</a>
                                     </li>
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                         <a href="#" className="nav-link d-flex align-items-center" data-bs-toggle="tab" data-bs-target="#employee-details">Employee Details</a>
-                                    </li>
-                                    <li className="nav-item">
+                                    </li> */}
+                                    {/* <li className="nav-item">
                                         <a href="#" className="nav-link d-flex align-items-center" data-bs-toggle="tab" data-bs-target="#work-limits">Work Limits</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link d-flex align-items-center" data-bs-toggle="tab" data-bs-target="#reports">Reports</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link d-flex align-items-center" data-bs-toggle="tab" data-bs-target="#additional-information">Additional Settings</a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                                 <div className="tab-content">
 								
 									{/* <!-- Basic Info --> */}
                                     <div className="tab-pane fade show active" id="basic-information" role="tabpanel">
                                         <p className="text-gray-9 fw-medium mb-3">Basic information</p>
-                                        <form action="users.html">
+                                          <form onSubmit={handleSubmit}>
                                             <div className="border-bottom mb-3">
                                                 <div className="row">
                                                     <div className="col-md-6">
@@ -54,34 +134,53 @@ export default function UserCreate() {
                                                             <label className="form-label">
                                                                 Name <span className="text-danger">*</span>
                                                             </label>
-                                                            <input type="text" className="form-control" />
-                                                        </div>
+          <input
+            type="text"
+            name="name"
+            className="form-control"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          {errors.name && <small className="text-danger">{errors.name}</small>}                                                        </div>
                                                     </div>
-                                                    <div className="col-md-6">
+                                                    {/* <div className="col-md-6">
                                                         <div className="mb-3">
                                                             <label className="form-label">
                                                                 User ID <span className="text-danger">*</span>
                                                             </label>
                                                             <input type="text" className="form-control" />
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="col-md-6">
                                                         <div className="mb-3">
                                                             <label className="form-label">
                                                                 Email Address <span className="text-danger">*</span>
                                                             </label>
-                                                            <input type="email" className="form-control" />
-                                                        </div>
+          <input
+            type="text"
+            name="email"
+            className="form-control"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {errors.email && <small className="text-danger">{errors.email}</small>}                                                        </div>
                                                     </div>
                                                     <div className="col-md-6">
                                                         <div className="mb-3">
                                                             <div className="input-blocks">
                                                                 <label className="form-label">Phone Number <span className="text-danger">*</span></label>
-                                                                <input className="form-control" id="phone3" name="phone" type="text" />
-                                                            </div>
+          <input
+            type="text"
+            name="phone"
+            className="form-control"
+            value={formData.phone}
+            onChange={handleChange}
+          />
+          {errors.name && <small className="text-danger">{errors.phone}</small>}                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div className="col-md-6">
+                                                    
+                                                    {/* <div className="col-md-6">
                                                         <div className="mb-3">
                                                             <label className="form-label">Onboarding Date <span className="text-danger">*</span></label>
                                                             <div className="input-groupicon calender-input">
@@ -98,7 +197,7 @@ export default function UserCreate() {
                                                                 <input type="text" className="datetimepicker form-control" placeholder="dd/mm/yyyy" />
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                             <div className="border-bottom mb-3">
@@ -109,10 +208,18 @@ export default function UserCreate() {
                                                             <label className="form-label">
                                                                 Address
                                                             </label>
-                                                            <input type="text" className="form-control" />
+          <input
+            type="text"
+            name="address"
+            className="form-control"
+            value={formData.address}
+            onChange={handleChange}
+          />
+
+          
                                                         </div>
                                                     </div>
-                                                    <div className="col-md-3">
+                                                    {/* <div className="col-md-3">
                                                         <div className="mb-3">
                                                             <label className="form-label">
                                                                 Country
@@ -128,14 +235,9 @@ export default function UserCreate() {
                                                     <div className="col-md-3">
                                                         <div className="mb-3">
                                                             <label className="form-label">
-                                                                States
+                                                                State
                                                             </label>
-                                                            <select className="select">
-                                                                <option>Select</option>
-                                                                <option>California</option>
-                                                                <option>New York</option>
-                                                                <option>Texas</option>
-                                                            </select>
+                                                            <input type="text" className="form-control" />
                                                         </div>
                                                     </div>
                                                     <div className="col-md-3">
@@ -153,19 +255,19 @@ export default function UserCreate() {
                                                             </label>
                                                             <input type="text" className="form-control" />
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                             <div className="d-flex justify-content-end align-items-center">
-                                                <a href="#" className="btn btn-light btn-md me-2">Cancel</a>
-                                                <a href="#" className="btn btn-dark btn-md">Save Changes</a>
+                                                <button type="button" className="btn btn-light btn-md me-2">Cancel</button>
+                                                <button type="submit" className="btn btn-dark btn-md">Save Changes</button>
                                             </div>
                                         </form>
                                     </div>
 									{/* <!-- /Basic Info --> */}
 									
 									{/* <!-- Employee Details --> */}
-                                    <div className="tab-pane fade" id="employee-details" role="tabpanel">
+                                    {/* <div className="tab-pane fade" id="employee-details" role="tabpanel">
                                         <form action="users.html">
                                             <div className="border-bottom mb-3">
                                                 <div className="row">
@@ -247,11 +349,11 @@ export default function UserCreate() {
                                                 <a href="#" className="btn btn-dark btn-md">Save Changes</a>
                                             </div>
                                         </form>
-                                    </div>
+                                    </div> */}
 									{/* <!-- /Employee Details --> */}
 									
 									{/* <!-- Work Limits --> */}
-                                    <div className="tab-pane fade" id="work-limits" role="tabpanel">
+                                    {/* <div className="tab-pane fade" id="work-limits" role="tabpanel">
                                         <form action="users.html">
                                             <div className="border-bottom mb-3">
                                                 <div className="row">
@@ -360,135 +462,8 @@ export default function UserCreate() {
                                                 <a href="#" className="btn btn-dark btn-md">Save Changes</a>
                                             </div>
                                         </form>
-                                    </div>
+                                    </div> */}
 									{/* <!-- /Work Limits --> */}
-									
-									{/* <!-- Reports--> */}
-                                    <div className="tab-pane fade" id="reports" role="tabpanel">
-                                        <form action="users.html">
-                                            <div className="border-bottom mb-3">
-                                                <div className="row">
-                                                    <div className="col-12">
-                                                        <div className="mb-3">
-                                                            <label className="form-label">
-                                                                Reports Type <span className="text-danger">*</span>
-                                                            </label>
-                                                            <select className="select">
-                                                                <option>Select</option>
-                                                                <option>Timesheet Report</option>
-                                                                <option>Activity Summary</option>
-                                                                <option>Web & App Usage</option>
-                                                                <option>Poor Time Use</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex justify-content-end align-items-center">
-                                                <a href="#" className="btn btn-light btn-md me-2">Cancel</a>
-                                                <a href="#" className="btn btn-dark btn-md">Save Changes</a>
-                                            </div>
-                                        </form>
-                                    </div>
-									{/* <!-- /Reports--> */}
-									
-									{/* <!-- Additional Info--> */}
-                                    <div className="tab-pane fade" id="additional-information" role="tabpanel">
-                                        <form action="users.html">
-                                            <div className="border-bottom mb-3">
-                                                <div className="d-flex align-items-center mb-3">
-                                                    <div className="form-check form-switch me-2">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                    </div>
-                                                    <span className="status-label">Take Screenshot</span>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <div className="mb-3">
-                                                        <label className="form-label">
-                                                            Screenshot <span className="text-danger">*</span>
-                                                        </label>
-                                                        <select className="select">
-                                                            <option>Select</option>
-                                                            <option >Every 2 Mins</option>
-                                                            <option>Every 5 Mins</option>
-                                                            <option>Every 10 Mins</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="d-flex align-items-center mb-3">
-                                                    <div className="form-check form-switch me-2">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                    </div>
-                                                    <span className="status-label">Manual Time</span>
-                                                </div>
-                                                <div className="d-flex align-items-center mb-3">
-                                                    <div className="form-check form-switch me-2">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                    </div>
-                                                    <span className="status-label">Delete Screenshots</span>
-                                                </div>
-                                                <div className="d-flex align-items-center mb-3">
-                                                    <div className="form-check form-switch me-2">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                    </div>
-                                                    <span className="status-label">Permanent Task</span>
-                                                </div>
-                                                <div className="d-flex align-items-center mb-3">
-                                                    <div className="form-check form-switch me-2">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                    </div>
-                                                    <span className="status-label">Add member to all new projects</span>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-md-4">
-                                                        <div className="mb-3">
-                                                            <label className="form-label">
-                                                                Inactive Time starts after <span className="text-danger">*</span>
-                                                            </label>
-                                                            <select className="select">
-                                                                <option>Select</option>
-                                                                <option > 2 Mins</option>
-                                                                <option> 5 Mins</option>
-                                                                <option> 10 Mins</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-4">
-                                                        <div className="mb-3">
-                                                            <label className="form-label">
-                                                                Allowed Apps
-                                                            </label>
-                                                            <select className="select">
-                                                                <option>Select</option>
-                                                                <option > All Apps</option>
-                                                                <option> Google Chrome</option>
-                                                                <option> VS Code</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-4">
-                                                        <div className="mb-3">
-                                                            <label className="form-label">
-                                                                Keep Idle Time <span className="text-danger">*</span>
-                                                            </label>
-                                                            <select className="select">
-                                                                <option>Select</option>
-                                                                <option >Every 2 Mins</option>
-                                                                <option>Every 5 Mins</option>
-                                                                <option>Every 10 Mins</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex justify-content-end align-items-center">
-                                                <a href="#" className="btn btn-light btn-md me-2">Cancel</a>
-                                                <a href="#" className="btn btn-dark btn-md">Save Changes</a>
-                                            </div>
-                                        </form>
-                                    </div>
-									{/* <!-- /Additional Info--> */}
-									
                                 </div>
                             </div>
                         </div>

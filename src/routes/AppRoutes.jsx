@@ -31,6 +31,8 @@ const AppRoutes = () => {
             <Route path="invite-status" element={<InviteStatus />} /> {/* /users/invite-status */}
           </Route>
           <Route path="/users/user-create" element={<UserCreate />} /> {/* /users/invite-status */}
+          <Route path="/users/edit-user/:id" element={<UserCreate />} />
+
         {/* Add more protected routes here */}
       </Route>
     </Routes>

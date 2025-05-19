@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import SearchInput from '../../components//SearchInput';
 
 export default function UserList() {
 
@@ -9,25 +10,85 @@ export default function UserList() {
     const [users, setUsers] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [searchKey, setSearchKey] = useState('');
+    const [filters, setFilters] = useState({
+        employee: [],
+        level: [],
+        status: []
+    });
+    const [sortBy, setSortBy] = useState('newest'); // 'newest' or 'oldest'
 
-    const fetchUsers = async (page = 1) => {
+    const fetchUsers = async (page = 1, search = '', filters = {}, sort = 'newest') => {
         try {
-        const res = await axios.get(`http://localhost:5000/api/users/?page=${page}&limit=10`);
-        setUsers(res.data.users);
-        setTotalPages(res.data.totalPages);
-        setPage(res.data.page);
+            const res = await axios.get(`http://localhost:5000/api/users`, {
+                params: {
+                    page,
+                    limit: 10,
+                    search_key: search,
+                    employee: filters.employee,
+                    level: filters.level,
+                    status: filters.status,
+                    sort_by: sort,
+                }
+            });
+            setUsers(res.data.users);
+            setTotalPages(res.data.totalPages);
+            setPage(res.data.page);
         } catch (err) {
-        console.error('Error fetching users', err);
+            console.error('Error fetching users', err);
         }
     };
 
-    useEffect(() => {
-        fetchUsers(page);
-    }, [page]);
 
+    useEffect(() => {
+        fetchUsers(page, searchKey, filters, sortBy);
+    }, [page, searchKey, filters, sortBy]);
+
+
+    const handleSearchResults = (key) => {
+        setSearchKey(key);
+        setPage(1); // reset to first page on new search
+    };
 
     const handleEdit = (userId) => {
        navigate(`/users/edit-user/${userId}`);
+    };
+
+    const handleFilterApply = (newFilters) => {
+        setFilters(newFilters);
+        setPage(1);
+    };
+
+    const handleSort = (order) => {
+        setSortBy(order); // 'newest' or 'oldest'
+        setPage(1);
+    };
+
+    const handleDownload = () => {
+    if (users.length === 0) {
+        alert('No data to download');
+        return;
+    }
+
+    const headers = ['First Name', 'Last Name', 'Email', 'Status']; // adjust as needed
+    const rows = users.map(user => [
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.status || 'N/A'
+    ]);
+
+    const csvContent =
+        'data:text/csv;charset=utf-8,' +
+        [headers, ...rows].map(e => e.join(',')).join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'users.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     };
 
     const  handleDelete = async (userId) => {
@@ -51,7 +112,7 @@ export default function UserList() {
 
   return (
         <div>
-                           <div className="d-flex align-items-center justify-content-between flex-wrap gap-3 table-header mb-3">
+                <div className="d-flex align-items-center justify-content-between flex-wrap gap-3 table-header mb-3">
                     <div>
                         <div id="reportrange" className="reportrange-picker d-flex align-items-center">
                             <i className="ti ti-calendar text-gray-5 fs-14 me-1"></i><span className="reportrange-picker-field"></span>
@@ -60,7 +121,10 @@ export default function UserList() {
                     <div className="d-flex align-items-center flex-wrap gap-2">
                         <div className="table-search">
                             <div className="search-input">
-                                <a href="#" className="btn-searchset"><i className="ti ti-search fs-14"></i></a>
+                             <SearchInput
+                                onSearch={handleSearchResults} // ✅ Correct
+                                placeholder="Search users..."
+                            />
                             </div>
                         </div>
                         <div className="dropdown">
@@ -124,16 +188,20 @@ export default function UserList() {
                             </a>
                             <ul className="dropdown-menu dropdown-menu-end p-3">
                                 <li>
-                                    <a href="#" className="dropdown-item rounded-1">Newest</a>
+                                    <a href="#" onClick={() => handleSort('newest')}>Newest</a>
                                 </li>
                                 <li>
-                                    <a href="#" className="dropdown-item rounded-1">Oldest</a>
+                                <a href="#" onClick={() => handleSort('oldest')}>Oldest</a>
                                 </li>
                             </ul>
                         </div>
                         <span className="text-gray-1">|</span>
-                        <a href="#" className="btn btn-icon btn-white btn-md d-flex align-items-center justify-content-center"><i className="ti ti-download"></i></a>
-                        <a href="#" className="btn btn-icon btn-white btn-md d-flex align-items-center justify-content-center"><i className="ti ti-columns"></i></a>
+                            <a
+                            href="#"
+                            className="btn btn-icon btn-white btn-md d-flex align-items-center justify-content-center"
+                            onClick={handleDownload}
+                            > <i className="ti ti-download"></i> </a>  
+                          <a href="#" className="btn btn-icon btn-white btn-md d-flex align-items-center justify-content-center"><i className="ti ti-columns"></i></a>
                     </div>
                 </div>
 

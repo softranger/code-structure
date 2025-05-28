@@ -1,16 +1,14 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // You missed this
 
-// Create context
 const AuthContext = createContext();
 
-// Create a provider component
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // store user info
+  const [user, setUser] = useState(null);  // { _id, name, email, role, permissions }
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // ✅ You used it in logout but never imported
 
-  // Load user/token from localStorage on mount
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     const storedUser = JSON.parse(localStorage.getItem('userData'));
@@ -24,8 +22,11 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const response = await fetch('http://127.0.0.1:5000/api/login', {
       method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
     });
 
     const data = await response.json();
@@ -34,41 +35,50 @@ export const AuthProvider = ({ children }) => {
       throw new Error(data.message || 'Login failed');
     }
 
+    const userData = {
+      _id: data._id,
+      name: data.name,
+      email: data.email,
+      role: data.role, // this must include permissions
+    };
+
     localStorage.setItem('authToken', data.token);
-    localStorage.setItem('userData', JSON.stringify({ _id: data._id, name: data.name, email: data.email }));
+    localStorage.setItem('userData', JSON.stringify(userData));
     setToken(data.token);
-    setUser({ _id: data._id, name: data.name, email: data.email });
+    setUser(userData);
   };
 
   const logout = async () => {
     try {
-      // Optional: call your Node.js logout API to invalidate token
       await fetch('http://127.0.0.1:5000/api/logout', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`, // if backend uses token-based logout
+          Authorization: `Bearer ${token}`,
         },
       });
     } catch (err) {
       console.error('Logout error (ignored):', err);
     }
 
-    // Clear local data
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
     setToken(null);
     setUser(null);
-
-    // Navigate to login
-    navigate('/');
+    navigate('/'); // redirect to login/home
   };
 
+  // ✅ Permission check helper
+const can = (permission) => {
+  return user?.role?.permissions?.includes(permission);
+};
+
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, isAuthenticated: !!user, can }}>
+
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to use auth
 export const useAuth = () => useContext(AuthContext);

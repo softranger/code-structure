@@ -1,5 +1,13 @@
 // src/pages/Dashboard.jsx
-export default function Dashboard() {
+import React from 'react';
+import { useAuth } from '../context/AuthContext';
+
+const Dashboard = () => {
+  const { user, can } = useAuth();
+  console.log(user);
+  console.log(can('view_dashboard'));
+
+
   return (
         <div>
 
@@ -763,5 +771,6 @@ export default function Dashboard() {
             </div>
         </div>
   );
-}
+};
 
+export default Dashboard;

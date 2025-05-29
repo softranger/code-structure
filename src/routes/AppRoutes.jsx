@@ -10,6 +10,9 @@ import UsersList from '../pages/users/UsersList';
 import ArchivedUsers from '../pages/users/ArchivedUsers';
 import InviteStatus from '../pages/users/InviteStatus';
 import UserCreate from '../pages/users/UserCreate';
+import RolesIndex from '../pages/roles/RolesIndex';
+import RolePermission from '../pages/roles/RolePermission';
+
 
 
 const AppRoutes = () => {
@@ -34,6 +37,11 @@ const AppRoutes = () => {
           <Route path="/users/edit-user/:id" element={<UserCreate />} />
 
         {/* Add more protected routes here */}
+        <Route path="/roles" element={<RolesIndex />} />
+        <Route path="/roles/permission/:id" element={<RolePermission />} />
+
+
+
       </Route>
     </Routes>
   );

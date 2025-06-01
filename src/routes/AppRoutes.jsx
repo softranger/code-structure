@@ -38,7 +38,7 @@ const AppRoutes = () => {
 
         {/* Add more protected routes here */}
         <Route path="/roles" element={<RolesIndex />} />
-        <Route path="/roles/permission/:id" element={<RolePermission />} />
+        <Route path="/roles/:roleId/permissions" element={<RolePermission />} />
 
 
 

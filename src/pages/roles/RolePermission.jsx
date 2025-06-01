@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function RolePermission() {
   const navigate = useNavigate();
   const [allModules, setAllModules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { roleId } = useParams();
 
-  // Load both: available permissions and role's assigned ones
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [allRes, roleRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/permissions'), // All available
-          axios.get('http://localhost:5000/api/roles/1/permissions') // Role-specific
+          axios.get('http://localhost:5000/api/roles/permissions'),
+          axios.get(`http://localhost:5000/api/roles/${roleId}/permissions`)
         ]);
 
         const rolePermissionsMap = new Map(
@@ -37,7 +37,7 @@ export default function RolePermission() {
     };
 
     fetchData();
-  }, []);
+  }, [roleId]);
 
   const handleToggle = (moduleIndex, permissionKey) => {
     setAllModules(prev =>
@@ -82,7 +82,7 @@ export default function RolePermission() {
           .map(([key]) => key),
       }));
 
-      await axios.post('http://localhost:5000/api/roles/1/permissions', selectedPermissions);
+      await axios.post(`http://localhost:5000/api/roles/${roleId}/permissions`, selectedPermissions);
       alert('Permissions updated successfully!');
     } catch (err) {
       console.error('Error saving permissions:', err);

@@ -86,7 +86,7 @@ export default function RolesIndex() {
     };
 
     const handlePermission = (roleId) => {
-       navigate(`/roles/permission/${roleId}`);
+       navigate(`/roles/${roleId}/permissions`);
     };
 
 const handleEdit = (roleId) => {

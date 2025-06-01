@@ -7,6 +7,10 @@ export default function RolesIndex() {
     const navigate = useNavigate();
 
     const [roles, setroles] = useState([]);
+    const [newRoleName, setNewRoleName] = useState('');
+    const [editingRole, setEditingRole] = useState({ id: '', name: '', status: true });
+
+
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searchKey, setSearchKey] = useState('');
@@ -16,6 +20,38 @@ export default function RolesIndex() {
         status: []
     });
     const [sortBy, setSortBy] = useState('newest'); // 'newest' or 'oldest'
+    
+   const handleAddRole = async (e) => {
+    e.preventDefault();
+
+    if (!newRoleName.trim()) {
+        alert('Role name is required');
+        return;
+    }
+
+    try {
+        await axios.post('http://localhost:5000/api/roles', {
+            name: newRoleName,
+        });
+
+        // Close modal
+        const modalEl = document.getElementById('add-role');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.hide();
+
+      // Clear input and refetch roles
+    setNewRoleName('');
+    fetchroles();
+        // Show toast
+        const toastEl = document.getElementById('successToast');
+        const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+        toast.show();
+
+    } catch (error) {
+        console.error('Error creating role:', error.response?.data || error.message);
+        alert(error.response?.data?.message || 'Failed to create role');
+    }
+};
 
     const fetchroles = async (page = 1, search = '', filters = {}, sort = 'newest') => {
         try {
@@ -53,9 +89,42 @@ export default function RolesIndex() {
        navigate(`/roles/permission/${roleId}`);
     };
 
-    const handleEdit = (roleId) => {
-       navigate(`/roles/edit-role/${roleId}`);
-    };
+const handleEdit = (roleId) => {
+    const role = roles.find((r) => r._id === roleId);
+    if (role) {
+        setEditingRole({
+            id: role._id,
+            name: role.name,
+            status: role.active,
+        });
+
+        const modalEl = document.getElementById('edit-role');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    }
+};
+
+const handleUpdateRole = async (e) => {
+    e.preventDefault();
+
+    try {
+        await axios.put(`http://localhost:5000/api/roles/${editingRole.id}`, {
+            name: editingRole.name,
+            active: editingRole.status
+        });
+
+        const modalEl = document.getElementById('edit-role');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.hide();
+
+        fetchroles();
+    } catch (error) {
+        console.error('Error updating role:', error.response?.data || error.message);
+        alert(error.response?.data?.message || 'Failed to update role');
+    }
+};
+
+
 
     const handleFilterApply = (newFilters) => {
         setFilters(newFilters);
@@ -113,7 +182,7 @@ export default function RolesIndex() {
       return (
         <div>
                 {/* <!-- Breadcrumb --> */}
-                <div className="d-flex align-items-center justify-content-between flex-wrap gap-3 table-header mb-3">
+                <div className="mb-4 d-flex align-items-center flex-wrap gap-2 justify-content-between">
                     <div>
                         <h4 className="mb-1 fw-bold">Roles & Permissions</h4>
                         <nav>
@@ -226,113 +295,175 @@ export default function RolesIndex() {
                                 <i className="ti ti-point-filled"></i> Active
                                 </span>
                             </td>
-                             <td class="action-item">
-                                    <a class="action-set dot-settings" href="#" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <i class="ti ti-dots-vertical" aria-hidden="true"></i>
+                             <td className="action-item">
+                                    <a className="action-set dot-settings" href="#" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <i className="ti ti-dots-vertical" aria-hidden="true"></i>
                                     </a>
-                                    <ul class="dropdown-menu p-2 rounded-2">
+                                    <ul className="dropdown-menu p-2 rounded-2">
                                         <li>
-                                            <a href="#" class="dropdown-item rounded-2" data-bs-toggle="modal" data-bs-target="#edit-role"><i class="ti ti-edit me-2"></i>Edit</a>
+                                            <a href="#" onClick={()=> handleEdit(role._id)} className="dropdown-item rounded-2" data-bs-toggle="modal" data-bs-target="#edit-role">
+                                                <i className="ti ti-edit me-2"></i>Edit</a>
                                         </li>
                                         <li>
                                             <a href="#" 
                                              onClick={() => handlePermission(role._id)}
-                                            class="dropdown-item rounded-2"><i class="ti ti-shield-plus me-2"></i>Permissions</a>
+                                            className="dropdown-item rounded-2"><i className="ti ti-shield-plus me-2"></i>Permissions</a>
                                         </li>
                                         <li>
-                                            <a href="#" class="dropdown-item rounded-2 text-danger"><i class="ti ti-trash me-2"></i>Remove Role</a>
+                                            <a href="#" onClick={() => handleDelete(role.id)} className="dropdown-item rounded-2 text-danger"><i className="ti ti-trash me-2"></i>Remove Role</a>
                                         </li>
                                     </ul>
                                 </td>
-                            {/* <td className="action-item">
-                                <a className="action-set dot-settings" href="#" data-bs-toggle="dropdown">
-                                <i className="ti ti-dots-vertical"></i>
-                                </a>
-                                <ul className="dropdown-menu p-2 rounded-2">
-                                 <li>
-                                    <a
-                                    href="#"
-                                    className="dropdown-item"
-                                    onClick={() => handleEdit(role._id)}
-                                    >
-                                    Edit role
-                                    </a>
-                                </li>
-                                <li><a href="#" className="dropdown-item">Suspend role</a></li>
-                                <li>
-                                 <a
-                                    href="#"
-                                    className="dropdown-item text-danger"
-                                    onClick={() => handleDelete(role._id)}
-                                    >
-                                    Remove role
-                                 </a>
-                                </li>
-                                </ul>
-                            </td> */}
                             </tr>
                         ))}
                         </tbody>
                     </table>
                 </div>
+                                    {/* Pagination */}
+                    <div className="d-flex justify-content-between mt-3">
+                        <button className="btn btn-sm btn-outline-primary" disabled={page <= 1} onClick={handlePrev}>
+                        Previous
+                        </button>
+                        <span>Page {page} of {totalPages}</span>
+                        <button className="btn btn-sm btn-outline-primary" disabled={page >= totalPages} onClick={handleNext}>
+                        Next
+                        </button>
+                    </div>
                 {/* <!-- /Table List --> */}
-
-
-        {/* <!-- Add Role --> */}
-        <div className="modal fade" id="add-role">
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-					<div className="modal-header">
-						<h5 className="modal-title">Add Role</h5>
-						<button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close"><i className="ti ti-x"></i></button>
-					</div>
-                    <form action="roles-permissions.html">
-                        <div className="modal-body">
-                            <div>
-                                <label className="form-label">Role Name <span className="text-danger">*</span></label>
-                                <input type="text" className="form-control" />
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-white btn-md me-2" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" className="btn btn-primary btn-md">Add Role</button>
-                        </div>
-                    </form>
-                </div>
+        <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+            id="successToast"
+            className="toast align-items-center text-bg-success border-0"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+        >
+            <div className="d-flex">
+            <div className="toast-body">
+                Role created successfully!
+            </div>
+            <button
+                type="button"
+                className="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast"
+                aria-label="Close"
+            ></button>
             </div>
         </div>
+        </div>
+
+
+                {/* <!-- Add Role --> */}
+        <div className="modal fade" id="add-role">
+        <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+            <div className="modal-header">
+                <h5 className="modal-title">Add Role</h5>
+                <button
+                type="button"
+                className="btn-close custom-btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                >
+                <i className="ti ti-x"></i>
+                </button>
+            </div>
+            <form onSubmit={handleAddRole}>
+                <div className="modal-body">
+                <div>
+                    <label className="form-label">
+                    Role Name <span className="text-danger">*</span>
+                    </label>
+                    <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    className="form-control"
+                    value={newRoleName}
+                    onChange={(e) => setNewRoleName(e.target.value)}
+                    />
+                </div>
+                </div>
+                <div className="modal-footer">
+                <button
+                    type="button"
+                    className="btn btn-white btn-md me-2"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+                <button type="submit" className="btn btn-primary btn-md">
+                    Add Role
+                </button>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+
         {/* <!-- /Add Role --> */}
 
         {/* <!-- Edit Role --> */}
-        <div className="modal fade" id="edit-role">
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-					<div className="modal-header">
-						<h5 className="modal-title">Edit Role</h5>
-						<button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close"><i className="ti ti-x"></i></button>
-					</div>
-                    <form action="roles-permissions.html">
-                        <div className="modal-body">
-                            <div className="mb-3">
-                                <label className="form-label">Role Name <span className="text-danger">*</span></label>
-                                <input type="text" className="form-control" value="role" />
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <span className="form-label">Status</span>
-                                <div className="form-check form-switch">
-                                    <input className="form-check-input" type="checkbox" checked />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-white btn-md me-2" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" className="btn btn-primary btn-md">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
+<div className="modal fade" id="edit-role">
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Edit Role</h5>
+        <button
+          type="button"
+          className="btn-close custom-btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <i className="ti ti-x"></i>
+        </button>
+      </div>
+      <form onSubmit={handleUpdateRole}>
+        <div className="modal-body">
+          <div className="mb-3">
+            <label className="form-label">
+              Role Name <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              value={editingRole.name}
+              onChange={(e) =>
+                setEditingRole({ ...editingRole, name: e.target.value })
+              }
+            />
+          </div>
+          <div className="d-flex justify-content-between align-items-center">
+            <span className="form-label">Status</span>
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={editingRole.status}
+                onChange={(e) =>
+                  setEditingRole({ ...editingRole, status: e.target.checked })
+                }
+              />
             </div>
+          </div>
         </div>
-        {/* <!-- /Edit Role --> */}
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-white btn-md me-2"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary btn-md">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
         </div>
   );
 }

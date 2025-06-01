@@ -1,139 +1,169 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import SearchInput from '../../components/SearchInput';
+import axios from 'axios';
 
 export default function RolePermission() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [allModules, setAllModules] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Load both: available permissions and role's assigned ones
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [allRes, roleRes] = await Promise.all([
+          axios.get('http://localhost:5000/api/permissions'), // All available
+          axios.get('http://localhost:5000/api/roles/1/permissions') // Role-specific
+        ]);
 
-      return (
-        <div>
-        <div className="mb-4 d-flex align-items-center flex-wrap gap-2 justify-content-between">
-            <div>
-                {/* <!-- Breadcrumb --> */}
-                <div className="mb-4">
-                    <a href="roles-permissions.html" className="fs-14 text-gray-9"><i className="ti ti-arrow-left me-1"></i>Back to Role</a>
-                </div>
-                {/* <!-- /Breadcrumb --> */}
+        const rolePermissionsMap = new Map(
+          roleRes.data.map((mod) => [mod.module, mod.permissions])
+        );
 
-                {/* <!-- Search --> */}
-                <div className="d-flex align-items-center justify-content-between flex-wrap gap-3 table-header mb-4">
-                    <div className="d-flex align-items-center">
-                        <h4 className="fw-bold">Permissions</h4>
-                        <span className="badge badge-success ms-2">Role : Admin</span>
-                    </div>
-                    <div className="d-flex align-items-center flex-wrap gap-3">
-                        <div className="dropdown">
-                            <a href="#" className="btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                <i className="ti ti-filter text-gray-5 me-1"></i>Filters
-                            </a>
-                            <div className="dropdown-menu dropdown-lg dropdown-menu-end filter-dropdown" id="filter-dropdown">
-                                <div className="d-flex align-items-center justify-content-between border-bottom filter-header">
-                                    <h4>Filter</h4>
-                                    <div className="d-flex align-items-center">
-                                        <a href="#" className="link-danger text-decoration-underline me-3">Clear All</a>
-                                        <a href="#" className="text-decoration-underline">Save View</a>
-                                    </div>
-                                </div>
-                                <form action="#">
-                                    <div className="filter-body pb-1">
-                                        <div className="mb-3">
-                                            <div className="d-flex align-items-center justify-content-between">
-                                                <label className="form-label">Module</label>
-                                                <a href="#" className="link-primary mb-1">Reset</a>
-                                            </div>
-                                            <select className="select2" multiple="multiple">
-                                                <option value="m-1" selected>Employees</option>
-                                                <option value="m-2">Projects & Tasks</option>
-                                                <option value="m-3">Screenshots</option>
-                                                <option value="m-4">Reports</option>
-                                                <option value="m-5">Users</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="filter-footer d-flex align-items-center justify-content-end border-top">
-                                        <a href="#" className="btn btn-light btn-md me-2" id="close-filter">Close</a>
-                                        <button type="submit" className="btn btn-primary btn-md">Filter</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div className="form-check form-check-md">
-                            <input className="form-check-input" type="checkbox" id="select-all" />
-                            <label for="select-all">Select All</label>
-                        </div>
-                    </div>
-                </div>
-                {/* <!-- /Search --> */}
+        const prepared = allRes.data.map((mod) => ({
+          module: mod.module,
+          permissions: mod.permissions.reduce((acc, perm) => {
+            acc[perm] = rolePermissionsMap.get(mod.module)?.includes(perm) || false;
+            return acc;
+          }, {}),
+        }));
 
-                {/* <!-- Table List --> */}
-                <div className="table-responsive no-filter no-pagination">
-                    <table className="table datatable">
-                        <thead className="thead-light text-uppercase">
-                            <tr>
-                                <th className="no-sort">Modules</th>
-                                <th className="no-sort">Allow All</th>
-                                <th className="no-sort">Read</th>
-                                <th className="no-sort">Write</th>
-                                <th className="no-sort">Create</th>
-                                <th className="no-sort">Delete</th>
-                                <th className="no-sort">Import</th>
-                                <th className="no-sort">Export</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="text-gray-9 fw-medium">Insignts</td>
-                                <td>
-                                    <div className="form-check form-check-md">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-check-md">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-check-md">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-check-md">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-check-md">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-check-md">
-                                        <input className="form-check-input" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="form-check form-check-md">
-                                        <input className="form-check-input" type="checkbox" checked />
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                {/* <!-- /Table List --> */}
+        setAllModules(prepared);
+      } catch (err) {
+        console.error('Error loading permissions:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-                <div className="d-flex justify-content-end align-items-center mt-4 mb-4">
-                    <a href="#" className="btn btn-white btn-md me-2">Cancel</a>
-                    <a href="#" className="btn btn-dark btn-md">Save Changes</a>
-                </div>
+    fetchData();
+  }, []);
 
-            </div>
+  const handleToggle = (moduleIndex, permissionKey) => {
+    setAllModules(prev =>
+      prev.map((module, i) =>
+        i === moduleIndex
+          ? {
+              ...module,
+              permissions: {
+                ...module.permissions,
+                [permissionKey]: !module.permissions[permissionKey],
+              },
+            }
+          : module
+      )
+    );
+  };
+
+  const handleSelectAll = () => {
+    const allChecked = allModules.every((mod) =>
+      Object.values(mod.permissions).every(Boolean)
+    );
+
+    setAllModules(prev =>
+      prev.map(mod => ({
+        ...mod,
+        permissions: Object.fromEntries(
+          Object.entries(mod.permissions).map(([key]) => [key, !allChecked])
+        ),
+      }))
+    );
+  };
+
+  const allPermissionsChecked = allModules.length > 0 &&
+    allModules.every((mod) => Object.values(mod.permissions).every(Boolean));
+
+  const handleSave = async () => {
+    try {
+      const selectedPermissions = allModules.map(mod => ({
+        module: mod.module,
+        permissions: Object.entries(mod.permissions)
+          .filter(([_, value]) => value)
+          .map(([key]) => key),
+      }));
+
+      await axios.post('http://localhost:5000/api/roles/1/permissions', selectedPermissions);
+      alert('Permissions updated successfully!');
+    } catch (err) {
+      console.error('Error saving permissions:', err);
+    }
+  };
+
+  if (loading) return <div className="p-4">Loading permissions...</div>;
+
+  return (
+    <div className="container py-4">
+      <div className="mb-4">
+        <button
+          onClick={() => navigate('/roles')}
+          className="btn btn-link fs-14 text-gray-9 p-0"
+        >
+          <i className="ti ti-arrow-left me-1"></i>Back to Role
+        </button>
+      </div>
+
+      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3 table-header mb-2">
+        <div className="d-flex align-items-center">
+          <h4 className="fw-bold mb-0">Permissions</h4>
+          <span className="badge bg-success ms-2">Role: Admin</span>
         </div>
-        
+        <div className="form-check form-check-md">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id="select-all"
+            checked={allPermissionsChecked}
+            onChange={handleSelectAll}
+          />
+          <label htmlFor="select-all" className="form-check-label">
+            Select All
+          </label>
         </div>
+      </div>
+
+      <div className="table-responsive">
+        <table className="table table-bordered text-center align-middle">
+          <thead className="table-light text-uppercase">
+            <tr>
+              <th>Modules</th>
+              <th>Read</th>
+              <th>Write</th>
+              <th>Create</th>
+              <th>Delete</th>
+              <th>Import</th>
+              <th>Export</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allModules.map((mod, index) => (
+              <tr key={mod.module}>
+                <td className="fw-medium text-start">{mod.module}</td>
+                {['read', 'write', 'create', 'delete', 'import', 'export'].map((permKey) => (
+                  <td key={permKey}>
+                    {mod.permissions.hasOwnProperty(permKey) ? (
+                      <div className="form-check form-check-md">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          checked={mod.permissions[permKey]}
+                          onChange={() => handleToggle(index, permKey)}
+                        />
+                      </div>
+                    ) : (
+                      '-'
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="d-flex justify-content-end align-items-center mt-4 mb-4">
+        <button className="btn btn-white me-2" onClick={() => navigate(-1)}>Cancel</button>
+        <button className="btn btn-dark" onClick={handleSave}>Save Changes</button>
+      </div>
+    </div>
   );
 }

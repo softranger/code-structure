@@ -120,10 +120,10 @@ export default function Sidebar() {
                         <li>
                             <ul>
                             {/* Dashboard */}
-                            <li className={`submenu ${openMenus['dashboard'] ? 'active' : ''}`}>
+                            <li className={`submenu ${openMenus['dashboard'] ? '' : ''}`}>
                                 <a
                                 href="#"
-                                className={openMenus['dashboard'] ? 'active subdrop' : ''}
+                                className={openMenus['dashboard'] ? ' subdrop' : ''}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     toggle('dashboard');
@@ -139,10 +139,10 @@ export default function Sidebar() {
                                 </ul>
                             </li>
                             {/* administration */}
-                            <li className={`submenu ${openMenus['administartion'] ? 'active' : ''}`}>
+                            <li className={`submenu ${openMenus['administartion'] ? '' : ''}`}>
                                     <a
                                     href="#"
-                                    className={openMenus['administartion'] ? 'active subdrop' : ''}
+                                    className={openMenus['administartion'] ? ' subdrop' : ''}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         toggle('administartion');
@@ -154,7 +154,7 @@ export default function Sidebar() {
                                     </a>
                                     <ul style={{ display: openMenus['administartion'] ? 'block' : 'none' }}>
 
-                                    <li className={`submenu submenu-two ${openMenus['calls'] ? 'active' : ''}`}>
+                                    <li className={`submenu submenu-two ${openMenus['calls'] ? '' : ''}`}>
                                         <a
                                         href="#"
                                         onClick={(e) => {
@@ -176,10 +176,10 @@ export default function Sidebar() {
                                 </ul>
                             </li>
                             {/* Applications */}
-                            {/* <li className={`submenu ${openMenus['applications'] ? 'active' : ''}`}>
+                            {/* <li className={`submenu ${openMenus['applications'] ? '' : ''}`}>
                                 <a
                                 href="#"
-                                className={openMenus['applications'] ? 'active subdrop' : ''}
+                                className={openMenus['applications'] ? ' subdrop' : ''}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     toggle('applications');
@@ -192,7 +192,7 @@ export default function Sidebar() {
                                 <ul style={{ display: openMenus['applications'] ? 'block' : 'none' }}>
                                 <li><a href="/chat">Chat</a></li>
 
-                                <li className={`submenu submenu-two ${openMenus['calls'] ? 'active' : ''}`}>
+                                <li className={`submenu submenu-two ${openMenus['calls'] ? '' : ''}`}>
                                     <a
                                     href="#"
                                     onClick={(e) => {

@@ -12,6 +12,7 @@ import InviteStatus from '../pages/users/InviteStatus';
 import UserCreate from '../pages/users/UserCreate';
 import RolesIndex from '../pages/roles/RolesIndex';
 import RolePermission from '../pages/roles/RolePermission';
+import Units from '../pages/units/Units';
 
 
 
@@ -40,7 +41,8 @@ const AppRoutes = () => {
         <Route path="/roles" element={<RolesIndex />} />
         <Route path="/roles/:roleId/permissions" element={<RolePermission />} />
 
-
+{/* warehouse */}
+        <Route path="/units" element={<Units />} />
 
       </Route>
     </Routes>

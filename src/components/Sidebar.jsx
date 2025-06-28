@@ -166,7 +166,8 @@ export default function Sidebar() {
                                         Users<span className="menu-arrow inside-submenu"></span>
                                         </a>
                                         <ul style={{ display: openMenus['users'] ? 'block' : 'none' }}>
-                                        <li><a href="#" onClick={(e) => handleNavigation(e, '/users')}>Users</a>
+                                        <li>
+                                            <a href="#" onClick={(e) => handleNavigation(e, '/users')}>Users</a>
                                         </li>
                                         <li><a href="#" onClick={(e)=> handleNavigation(e, '/roles')}>Roles & Permission</a></li>
                                         </ul>
@@ -175,6 +176,37 @@ export default function Sidebar() {
                                 </li>
                                 </ul>
                             </li>
+                            {/* warehouse */}
+                             <li className="menu-title"><span>Warehouse</span></li>
+                        <li>
+                            <ul>
+                                <li>
+                                    <a href="#" onClick={(e) => handleNavigation(e, '/units')}>
+                                        <i className="ti ti-chart-infographic"></i><span>Units</span><span className="track-icon"></span>
+                                    </a>
+                                </li>
+                                <li>   
+                                    <a href="#" onClick={(e) => handleNavigation(e, '/category')}>
+                                       <i className="ti ti-graph"></i><span>Category</span>
+                                    </a>                
+                                </li>
+                                <li>
+                                    <a href="#" onClick={(e) => handleNavigation(e, '/products')}>
+                                       <i className="ti ti-license"></i><span>products</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onClick={(e) => handleNavigation(e, '/warehouse')}>
+                                        <i className="ti ti-calendar"></i><span>warehouse</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onClick={(e) => handleNavigation(e, '/users')}>
+                                        <i className="ti ti-report-money"></i><span>warehouse product</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                             {/* Applications */}
                             {/* <li className={`submenu ${openMenus['applications'] ? '' : ''}`}>
                                 <a
@@ -220,7 +252,8 @@ export default function Sidebar() {
                         </li> */}
 
                        
-                        {/* <li className="menu-title"><span>Track</span></li>
+                        {/* 
+                     <li className="menu-title"><span>Track</span></li>
                         <li>
                             <ul>
                                 <li>
